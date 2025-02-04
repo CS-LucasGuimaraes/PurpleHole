@@ -44,7 +44,7 @@ class PhysicsEntities {
      *
      * \returns (void): This function does not return a value.
      */
-    void render();
+    void render(fCord offset);
 
     SDL_FRect * Rect();
 

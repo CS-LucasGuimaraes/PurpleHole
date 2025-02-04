@@ -42,13 +42,17 @@ void PhysicsEntities::update(int movement) {
     this->animation->update();
 }
 
-void PhysicsEntities::render() {
+void PhysicsEntities::render(fCord offset) {
+    SDL_FRect* dstrect = this->Rect();
+    dstrect->x -= offset.x;
+    dstrect->y -= offset.y;
+
     if (this->flip)
         SDL_RenderTextureRotated(renderer, this->animation->img(), NULL,
-                         this->Rect(), 0.0, NULL, SDL_FLIP_HORIZONTAL);
+                         dstrect, 0.0, NULL, SDL_FLIP_HORIZONTAL);
     else
         SDL_RenderTexture(renderer, this->animation->img(), NULL,
-                         this->Rect());
+                         dstrect);
 }
 
 SDL_FRect * PhysicsEntities::Rect() {

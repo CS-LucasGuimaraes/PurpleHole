@@ -97,14 +97,20 @@ bool Game::handleEvents() {
 
 void Game::update() {
     this->player->update(this->movement.second - this->movement.first);
+    this->camera_control();
+}
+
+void Game::camera_control() {
+    this->offset.x += int((this->player->Rect()->x+this->player->Rect()->w - PurpleHole::kDisplaySize.x / 2 - this->offset.x) / 32);
+    this->offset.y += int((this->player->Rect()->y + this->player->Rect()->h - PurpleHole::kDisplaySize.y / 2 - this->offset.y) / 32);
 }
 
 void Game::render() {
     SDL_SetRenderTarget(renderer, display);
     SDL_RenderClear(renderer);
 
-    this->player->render();
-    (*this->tilemap)->render({0, 0});
+    this->player->render(this->offset);
+    (*this->tilemap)->render(this->offset);
 
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderClear(renderer);

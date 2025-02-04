@@ -66,7 +66,10 @@ class Game {
     Tilemap* past;
     Tilemap* present;
     Tilemap* future;
+    fCord offset = {0, 0};
     std::pair<int, int> movement = {0, 0};
+
+    void camera_control();
 };
 }  // namespace PurpleHole
 
