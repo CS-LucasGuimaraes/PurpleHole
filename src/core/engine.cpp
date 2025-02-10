@@ -35,7 +35,7 @@ bool Init(const char *title, SDL_Rect window_features, bool fullscreen) {
         screen_flags |= SDL_WINDOW_FULLSCREEN;
     }
 
-    if (SDL_InitSubSystem(SDL_INIT_EVENTS|SDL_INIT_VIDEO)) {
+    if (SDL_InitSubSystem(SDL_INIT_EVENTS|SDL_INIT_VIDEO|SDL_INIT_GAMEPAD)) {
         std::clog << "SDL3 initialized!...\n";
 
         screen = SDL_CreateWindow("Cpp Game Dev", 

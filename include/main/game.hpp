@@ -18,6 +18,7 @@
 #include "classes/entities.hpp"
 #include "classes/tilemap.hpp"
 #include "core/assets.hpp"
+#include "core/keybinds.hpp"
 #include "core/engine.hpp"
 #include "core/imageHandle.hpp"
 

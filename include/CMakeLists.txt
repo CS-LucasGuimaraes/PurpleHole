@@ -9,6 +9,7 @@ target_sources(Purplehole PUBLIC
 ../src/core/assets.cpp 
 ../src/core/engine.cpp 
 ../src/core/imageHandle.cpp 
+../src/core/keybinds.cpp 
 ../src/core/utils.cpp 
 
 ../src/main/editor.cpp 
@@ -24,6 +25,7 @@ target_sources(Purplehole PUBLIC
 ./core/assets.hpp 
 ./core/engine.hpp 
 ./core/imageHandle.hpp 
+./core/keybinds.hpp 
 ./core/utils.hpp
 
 ./main/editor.hpp 

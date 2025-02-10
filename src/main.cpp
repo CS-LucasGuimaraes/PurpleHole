@@ -13,6 +13,8 @@
 //    limitations under the License.
 
 #include "core/engine.hpp"
+#include "core/assets.hpp"
+#include "core/keybinds.hpp"
 #include "main/editor.hpp"
 #include "main/game.hpp"
 
@@ -36,6 +38,12 @@ int main(int argc, char* argv[]) {
         std::clog << "Assets initialized!...\n";
     } else {
         std::cerr << "[WARNING!] ASSETS INITIALIZATION FAILED!\n";
+    }
+
+    if (keybinds::init()) {
+        std::clog << "Keymap initialized!...\n";
+    } else {
+        std::cerr << "[WARNING!] KEYMAP INITIALIZATION FAILED!\n";
     }
 
     int mode = 0;

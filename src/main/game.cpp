@@ -38,58 +38,64 @@ bool Game::handleEvents() {
             case SDL_EVENT_QUIT:
                 this->isRunning = false;
                 return false;
+            
+                break;
+            case SDL_EVENT_GAMEPAD_ADDED:
+                std::cout << "GAMEPAD ADDED" << std::endl;    
+                SDL_OpenGamepad(event.gdevice.which);
+            break;
+              
+            case SDL_EVENT_GAMEPAD_BUTTON_DOWN:
+                if (event.gbutton.button == keybinds::keymap["jump"].controller) {
+                    this->player->jump();
+                }
+            break;
 
             case SDL_EVENT_KEY_DOWN:
-                switch (event.key.key) {
-                    case SDLK_A:
-                        this->movement.first = 1;
-                        break;
-
-                    case SDLK_D:
-                        this->movement.second = 1;
-                        break;
-                    case SDLK_SPACE:
-                        this->player->jump();
-                        break;
-                    case SDLK_E:
-                         if (*this->tilemap == this->past) {
-                            this->tilemap = &this->present;
-                        } else
-                        if (*this->tilemap == this->present) {
-                            this->tilemap = &this->future;
-
-                        } else
-                        if (*this->tilemap == this->future) {
-                            continue;
-                        }
-                        break;
-                    case SDLK_Q:
-                         if (*this->tilemap == this->past) {
-                            continue;
-                        } else
-                        if (*this->tilemap == this->present) {
-                            this->tilemap = &this->past;
-
-                        } else
-                        if (*this->tilemap == this->future) {
-                            this->tilemap = &this->present;
-                        }
-                        break;
+                if (event.key.key == keybinds::keymap["left"].main || event.key.key == keybinds::keymap["left"].secondary) {
+                    this->movement.first = 1;
+                } 
+                else if (event.key.key == keybinds::keymap["right"].main || event.key.key == keybinds::keymap["right"].secondary) {
+                    this->movement.second = 1;
                 }
-                break;
+                else if (event.key.key == keybinds::keymap["jump"].main || event.key.key == keybinds::keymap["jump"].secondary) {
+                    this->player->jump();
+                }
+                else if (event.key.key == keybinds::keymap["previous"].main || event.key.key == keybinds::keymap["previous"].secondary) {
+                    if (*this->tilemap == this->past) {
+                        continue;
+                    } else
+                    if (*this->tilemap == this->present) {
+                        this->tilemap = &this->past;
+
+                    } else
+                    if (*this->tilemap == this->future) {
+                        this->tilemap = &this->present;
+                    }
+                    break;
+                }
+                else if (event.key.key == keybinds::keymap["next"].main || event.key.key == keybinds::keymap["next"].secondary) {
+                     if (*this->tilemap == this->past) {
+                        this->tilemap = &this->present;
+                    } else
+                    if (*this->tilemap == this->present) {
+                        this->tilemap = &this->future;
+
+                    } else
+                    if (*this->tilemap == this->future) {
+                        continue;
+                    }
+                }
+            break;
 
             case SDL_EVENT_KEY_UP:
-                switch (event.key.key) {
-                    case SDLK_A:
-                        this->movement.first = 0;
-                        break;
-
-                    case SDLK_D:
-                        this->movement.second = 0;
-                        break;
+                if (event.key.key == keybinds::keymap["left"].main || event.key.key == keybinds::keymap["left"].secondary) {
+                    this->movement.first = 0;
                 }
-                break;
-                
+                else if (event.key.key == keybinds::keymap["right"].main || event.key.key == keybinds::keymap["right"].secondary) {
+                    this->movement.second = 0;
+                }
+            break;
         }
     }
     return true;
