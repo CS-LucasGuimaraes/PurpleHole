@@ -12,8 +12,8 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-#ifndef CPPGAMEDEV_CORE_IMAGEHANDLE_HPP_
-#define CPPGAMEDEV_CORE_IMAGEHANDLE_HPP_
+#ifndef PURPLEHOLE_CORE_IMAGEHANDLE_HPP_
+#define PURPLEHOLE_CORE_IMAGEHANDLE_HPP_
 
 #include "core/engine.hpp"
 
@@ -40,4 +40,4 @@ const std::vector<SDL_Texture *> load_images(const char* path);
 
 }  // namespace PurpleHole
 
-#endif // CPPGAMEDEV_CORE_IMAGEHANDLE_HPP_
+#endif // PURPLEHOLE_CORE_IMAGEHANDLE_HPP_

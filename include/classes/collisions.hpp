@@ -12,8 +12,8 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-#ifndef CPPGAMEDEV_CLASSES_COLLISIONS_HPP_
-#define CPPGAMEDEV_CLASSES_COLLISIONS_HPP_
+#ifndef PURPLEHOLE_CLASSES_COLLISIONS_HPP_
+#define PURPLEHOLE_CLASSES_COLLISIONS_HPP_
 
 #include "core/engine.hpp"
 #include "classes/tilemap.hpp"
@@ -40,4 +40,4 @@ class Collisions {
 };
 }  // namespace PurpleHole
 
-#endif  // CPPGAMEDEV_CLASSES_COLLISIONS_HPP_
+#endif  // PURPLEHOLE_CLASSES_COLLISIONS_HPP_

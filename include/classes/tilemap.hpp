@@ -13,8 +13,8 @@
 //     You should have received a copy of the GNU General Public License
 //     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef CPPGAMEDEV_CORE_TILEMAP_HPP_
-#define CPPGAMEDEV_CORE_TILEMAP_HPP_
+#ifndef PURPLEHOLE_CORE_TILEMAP_HPP_
+#define PURPLEHOLE_CORE_TILEMAP_HPP_
 
 #include "classes/animation.hpp"
 #include "core/assets.hpp"
@@ -71,4 +71,4 @@ class Tilemap {
 };
 }  // namespace PurpleHole
 
-#endif  // CPPGAMEDEV_CORE_TILEMAP_HPP_
+#endif  // PURPLEHOLE_CORE_TILEMAP_HPP_

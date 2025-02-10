@@ -12,8 +12,8 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-#ifndef CPPGAMEDEV_CORE_UTILS_HPP_
-#define CPPGAMEDEV_CORE_UTILS_HPP_
+#ifndef PURPLEHOLE_CORE_UTILS_HPP_
+#define PURPLEHOLE_CORE_UTILS_HPP_
 
 #include "core/engine.hpp"
 
@@ -30,4 +30,4 @@ std::string GenID(std::string classType);
 
 } // namespace PurpleHole
 
-#endif  // CPPGAMEDEV_CORE_UTILS_HPP_
+#endif  // PURPLEHOLE_CORE_UTILS_HPP_

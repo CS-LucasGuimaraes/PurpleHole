@@ -12,8 +12,8 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-#ifndef CPPGAMEDEV_CLASSES_ENTITIES_HPP_
-#define CPPGAMEDEV_CLASSES_ENTITIES_HPP_
+#ifndef PURPLEHOLE_CLASSES_ENTITIES_HPP_
+#define PURPLEHOLE_CLASSES_ENTITIES_HPP_
 
 #include "core/engine.hpp"
 #include "core/assets.hpp"
@@ -103,4 +103,4 @@ class Player : public PhysicsEntities {
 
 }  // namespace PurpleHole
 
-#endif  // CPPGAMEDEV_CLASSES_ENTITIES_HPP_
+#endif  // PURPLEHOLE_CLASSES_ENTITIES_HPP_

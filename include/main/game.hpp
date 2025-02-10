@@ -12,8 +12,8 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-#ifndef CPPGAMEDEV_CORE_GAME_HPP_
-#define CPPGAMEDEV_CORE_GAME_HPP_
+#ifndef PURPLEHOLE_CORE_GAME_HPP_
+#define PURPLEHOLE_CORE_GAME_HPP_
 
 #include "classes/entities.hpp"
 #include "classes/tilemap.hpp"
@@ -73,4 +73,4 @@ class Game {
 };
 }  // namespace PurpleHole
 
-#endif  // CPPGAMEDEV_CORE_GAME_HPP_
+#endif  // PURPLEHOLE_CORE_GAME_HPP_

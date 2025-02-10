@@ -21,7 +21,7 @@ SDL_Renderer *renderer = nullptr;
 SDL_Texture *display = nullptr;
 
 const iCord kDisplaySize = {640, 360};
-const iCord kScreenSize = {1280, 720};
+const iCord kScreenSize = {1920, 1080};
 const int kRenderScale = kScreenSize.x / kDisplaySize.x;
 const int kIdSize = 8;
 
@@ -29,6 +29,7 @@ int curr_id = 1;
 
 bool Init(const char *title, SDL_Rect window_features, bool fullscreen) {
     Uint32 screen_flags = 0;
+
 
     if (fullscreen) {
         screen_flags |= SDL_WINDOW_FULLSCREEN;
@@ -62,6 +63,7 @@ bool Init(const char *title, SDL_Rect window_features, bool fullscreen) {
                                     kDisplaySize.y);
         if (display) {
             std::clog << "Display (render target) created sucessfully!\n";
+            // SDL_SetTextureScaleMode(display, SDL_SCALEMODE_NEAREST);
 
         } else {
             std::cerr

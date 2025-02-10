@@ -12,8 +12,8 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-#ifndef CPPGAMEDEV_CORE_ENGINE_HPP_
-#define CPPGAMEDEV_CORE_ENGINE_HPP_
+#ifndef PURPLEHOLE_CORE_ENGINE_HPP_
+#define PURPLEHOLE_CORE_ENGINE_HPP_
 
 #include <bits/stdc++.h>
 
@@ -73,4 +73,4 @@ bool Init(const char *title, SDL_Rect window_features, bool fullscreen);
 void Shutdown();
 }  // namespace PurpleHole
 
-#endif // CPPGAMEDEV_CORE_ENGINE_HPP_
+#endif // PURPLEHOLE_CORE_ENGINE_HPP_

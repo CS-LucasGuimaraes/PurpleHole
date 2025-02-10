@@ -23,7 +23,7 @@ Game::Game() {
 
     this->tilemap = &present;
     
-    this->player = new Player({21, 21, 32, 32}, &tilemap);
+    this->player = new Player({0, 0, 21, 21}, &tilemap);
 }
 
 Game::~Game() {

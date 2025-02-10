@@ -12,8 +12,8 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-#ifndef CPPGAMEDEV_CORE_ASSETS_HPP_
-#define CPPGAMEDEV_CORE_ASSETS_HPP_
+#ifndef PURPLEHOLE_CORE_ASSETS_HPP_
+#define PURPLEHOLE_CORE_ASSETS_HPP_
 
 #include "classes/animation.hpp"
 #include "engine.hpp"
@@ -38,4 +38,4 @@ bool init();
 }  // namespace assets
 }  // namespace PurpleHole
 
-#endif  // CPPGAMEDEV_CORE_ASSETS_HPP_
+#endif  // PURPLEHOLE_CORE_ASSETS_HPP_
