@@ -69,6 +69,7 @@ class Game {
     Tilemap* future;
     fCord offset = {0, 0};
     std::pair<int, int> movement = {0, 0};
+    std::map<SDL_Gamepad*, Player*> Gamepad2Player;
 
     void camera_control();
 };

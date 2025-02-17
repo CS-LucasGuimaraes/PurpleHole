@@ -21,7 +21,7 @@ SDL_Renderer *renderer = nullptr;
 SDL_Texture *display = nullptr;
 
 const iCord kDisplaySize = {640, 360};
-const iCord kScreenSize = {1920, 1080};
+const iCord kScreenSize = {1280, 720};
 const int kRenderScale = kScreenSize.x / kDisplaySize.x;
 const int kIdSize = 8;
 

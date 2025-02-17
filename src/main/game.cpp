@@ -33,7 +33,23 @@ Game::~Game() {
 
 bool Game::handleEvents() {
     SDL_Event event;
-    while (SDL_PollEvent(&event)) {
+
+    for (auto [_gamepad, _player] : Gamepad2Player) {
+        long long x = SDL_GetGamepadAxis(_gamepad, SDL_GAMEPAD_AXIS_LEFTX);
+        long long y = SDL_GetGamepadAxis(_gamepad, SDL_GAMEPAD_AXIS_LEFTY);
+
+        if (x*x + y*y > 8000*8000) {
+            if (x < -8000)
+                this->movement.first = 1;
+            else if (x > 8000)
+                this->movement.second = 1;
+            else
+                this->movement.first = this->movement.second = 0;
+        }
+        else
+            this->movement.first = this->movement.second = 0;
+        }
+        while (SDL_PollEvent(&event)) {
         switch (event.type) {
             case SDL_EVENT_QUIT:
                 this->isRunning = false;
@@ -41,8 +57,8 @@ bool Game::handleEvents() {
             
                 break;
             case SDL_EVENT_GAMEPAD_ADDED:
-                std::cout << "GAMEPAD ADDED" << std::endl;    
-                SDL_OpenGamepad(event.gdevice.which);
+                std::cout << "GAMEPAD ADDED" << std::endl;
+                Gamepad2Player[SDL_OpenGamepad(event.gdevice.which)] = this->player;
             break;
               
             case SDL_EVENT_GAMEPAD_BUTTON_DOWN:
