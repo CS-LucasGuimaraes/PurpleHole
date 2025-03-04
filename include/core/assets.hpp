@@ -23,6 +23,7 @@ namespace PurpleHole {
 namespace assets {
 
 extern std::map<std::string, Animation*> animations;
+extern std::map<std::string, Animation*> animated_tiles;
 extern std::map<std::string, std::vector<SDL_Texture *>> tiles;
 
 /**

@@ -44,6 +44,8 @@ class Editor {
      */
     void update();
 
+    void tile_preview();
+
     /**
      * Renders the game state to the screen.
      *
@@ -79,12 +81,57 @@ class Editor {
     bool right_clicking = false;
     bool ongrid = true;
 
+    SDL_Texture * get_curr_tile();
+
     std::vector<std::pair<std::string, std::string>> tile_list = {
+        {"decor", "decoration"},
         {"grass", "Physical"},
+        {"large_decor", "decoration"},
+        {"snow", "Physical"},
+        {"cloud_platform", "Physical"},
+        {"scaffolding", "Physical"},
+        {"boxes", "Physical"},
+        {"heart", "Collectable"},
+        {"coin", "animated/Collectable"},
+        {"diamond", "Collectable"},
+        {"crates", "Physical"},
+        {"key_door", "Physical"},
+        {"door", "Physical"},
+        {"fence", "Physical"},
+        {"flag", "Physical"},
+        {"flag_pole", "Physical"},
+        {"blue_flag", "Physical"},
+        {"blue_flag_pole", "Physical"},
+        {"ice1", "Physical"},
+        {"ice2", "Physical"},
+        {"tree", "Physical"},
+        {"leaves", "Physical"},
+        {"lever", "Physical"},
+        {"mushroom", "Physical"},
+        {"path", "Physical"},
+        {"pipe", "Physical"},
+        {"ropes", "Physical"},
+        {"signs", "Physical"},
+        {"stairs", "Physical"},
+        {"water", "Physical"},
+        {"key", "Collectable"},
+        {"water_surface", "Physical"},
+        {"spike", "Physical"},
+        {"snowman", "Physical"},
+        {"beams", "Physical"},
+        {"box_industrial", "Physical"},
+        {"chest", "Physical"},
+        {"gears", "Physical"},
         {"stone", "Crate"}
         };
     short tile_group = 0;
     short tile_variant = 0;
+
+    std::map<std::string, bool> modifiers = {
+        {"ctrl", false},
+        {"shift", false},
+        {"alt", false}
+    };
 };
 }  // namespace PurpleHole
 

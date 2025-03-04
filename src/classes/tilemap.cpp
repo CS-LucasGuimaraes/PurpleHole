@@ -28,14 +28,16 @@ void Tilemap::render(fCord offset) {
              y++) {
             std::string loc = std::to_string(x) + ';' + std::to_string(y);
             if ((tile = this->tilemap.find(loc)) != this->tilemap.end()) {
-                if (tile->second.category == "ANIMATION") {
+                if (tile->second.render == "animated") {
                     this->dstR.x = x * this->tile_size - offset.x;
                     this->dstR.y = y * this->tile_size - offset.y;
-                    // SDL_RenderCopy(renderer,
-                    // tile->second.animation->img(), NULL, &this->dstR);
+                    SDL_RenderTexture(
+                        renderer,
+                        assets::animated_tiles[tile->second.type]->img(),
+                        NULL, &this->dstR);
                 }
 
-                else if (tile->second.category == "EDITOR_ONLY") {
+                else if (tile->second.render == "editor_only") {
                     //
                 }
 
@@ -115,7 +117,12 @@ void Tilemap::load(int lvl) {
 
         for (auto [k, v] : data.items()) {
             this->tilemap[k] = {
-                v["type"], v["variant"], {v["pos"][0], v["pos"][1]}, v["category"]};
+                v["type"],
+                v["variant"],
+                {v["pos"][0], v["pos"][1]},
+                v["category"],
+                v["render"]
+            };
         }
     }
     catch(const std::exception& e) {
@@ -132,10 +139,13 @@ void Tilemap::save(int lvl) {
     nlohmann::json j;
 
     for (auto [k, v] : this->tilemap) {
-        j[k] = {{"type", v.type},
-                {"variant", v.variant},
-                {"pos", {v.pos.x, v.pos.y}},
-                {"category", v.category}};
+        j[k] = {
+            { "type", v.type },
+            { "variant", v.variant },
+            { "pos", {v.pos.x, v.pos.y} },
+            { "category", v.category },
+            { "render", v.render }
+            };
     }
     out << j;
 

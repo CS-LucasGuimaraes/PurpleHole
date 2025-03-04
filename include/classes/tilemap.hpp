@@ -27,6 +27,7 @@ struct tile {
     short variant;
     iCord pos;
     std::string category;
+    std::string render;
 };
 
 namespace tilemap {

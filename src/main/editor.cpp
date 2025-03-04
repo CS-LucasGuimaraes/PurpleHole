@@ -41,6 +41,17 @@ bool Editor::handleEvents() {
 
             case SDL_EVENT_KEY_DOWN:
                 switch (event.key.key) {
+                    case SDLK_LCTRL:
+                        this->modifiers["ctrl"] = true;
+                        break;
+                    case SDLK_LSHIFT:
+                        this->modifiers["shift"] = true;
+                        break;
+                    case SDLK_LALT:
+                        this->modifiers["alt"] = true;
+                        break;
+
+                        
                     case SDLK_A:
                         this->movementX.first = 1;
                         break;
@@ -85,6 +96,17 @@ bool Editor::handleEvents() {
 
             case SDL_EVENT_KEY_UP:
                 switch (event.key.key) {
+                case SDLK_LCTRL:
+                    this->modifiers["ctrl"] = false;
+                    break;
+                case SDLK_LSHIFT:
+                    this->modifiers["shift"] = false;
+                    break;
+                case SDLK_LALT:
+                    this->modifiers["alt"] = false;
+                    break;
+
+
                     case SDLK_A:
                         this->movementX.first = 0;
                         break;
@@ -141,10 +163,20 @@ bool Editor::handleEvents() {
                 break;
             case SDL_EVENT_MOUSE_WHEEL:
                 if (event.wheel.y > 0) { // UP
-                    tile_group = (tile_group + 1) % tile_list.size();
+                    if (this->modifiers["shift"]) {
+                        this->tile_variant = (this->tile_variant + 1) % assets::tiles[this->tile_list[this->tile_group].first].size();
+                    } else {
+                        tile_group = (tile_group + 1) % tile_list.size();
+                        this->tile_variant = 0;
+                    }
                 }
                 else if (event.wheel.y < 0) { // DOWN
-                    tile_group = (tile_group - 1 + tile_list.size()) % tile_list.size();
+                    if (this->modifiers["shift"]) {
+                        this->tile_variant = (this->tile_variant - 1) % assets::tiles[this->tile_list[this->tile_group].first].size();
+                    } else {
+                        tile_group = (tile_group - 1) % tile_list.size();
+                        this->tile_variant = 0;
+                    }
                 }
         }
     }
@@ -159,11 +191,18 @@ void Editor::update() {
         std::string tile_loc =
             std::to_string(tilepos.x) + ";" + std::to_string(tilepos.y);
 
+        std::string tile_category = this->tile_list[tile_group].second;
+        std::string render = "";
+
+        
         if (this->clicking) {
+            if (tile_category.substr(0, tile_category.find('/')) == "animated") {
+                tile_category = tile_category.substr(tile_category.find('/') + 1);
+                render = "animated";
+            }
             (*this->tilemap)->tilemap[tile_loc] = {
-                this->tile_list[this->tile_group].first, this->tile_variant,
-                tilepos, this->tile_list[this->tile_group].second};
-                std::cout << int(this->tile_group) << std::endl;
+                this->tile_list[tile_group].first, this->tile_variant, tilepos, 
+                tile_category, render};
         }
 
         if (this->right_clicking) {
@@ -177,11 +216,47 @@ void Editor::update() {
     }
 }
 
+SDL_Texture * Editor::get_curr_tile() {
+    auto tile_type = this->tile_list[this->tile_group].second;
+    if (tile_type.substr(0, tile_type.find('/')) == "animated") {
+        return assets::animated_tiles[this->tile_list[this->tile_group].first]->img();
+    }
+    else {
+        return assets::tiles[this->tile_list[this->tile_group].first][this->tile_variant];
+    }
+}
+
+void Editor::tile_preview() {
+    SDL_Texture* curr_tile_img = get_curr_tile();
+
+    float tile_size = (*this->tilemap)->tile_size;
+    iCord tile_pos = this->getTilePos();
+    fCord tile_pos_f = {tile_pos.x * tile_size - this->scroll.x, tile_pos.y * tile_size - this->scroll.y};
+    SDL_FRect preview_corner = {tile_size/2, tile_size/2, tile_size, tile_size};
+    SDL_FRect preview_mouse = {tile_pos_f.x, tile_pos_f.y, tile_size, tile_size};
+
+    SDL_BlendMode prev_blendMode;
+    SDL_GetTextureBlendMode(curr_tile_img, &prev_blendMode);
+    SDL_SetTextureBlendMode(curr_tile_img, SDL_BLENDMODE_MOD);
+
+
+    Uint8 prev_alpha;
+    SDL_GetTextureAlphaMod(curr_tile_img, &prev_alpha);
+    SDL_SetTextureAlphaMod(curr_tile_img, 80);
+        
+    SDL_RenderTexture(renderer, curr_tile_img, NULL, &preview_corner);
+    SDL_RenderTexture(renderer, curr_tile_img, NULL, &preview_mouse);
+
+    SDL_SetTextureAlphaMod(curr_tile_img, prev_alpha);
+    SDL_SetTextureBlendMode(curr_tile_img, prev_blendMode);
+}
+
 void Editor::render() {
     SDL_SetRenderTarget(renderer, display);
     SDL_RenderClear(renderer);
 
     (*this->tilemap)->render(this->scroll);
+    this->tile_preview();
 
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderClear(renderer);

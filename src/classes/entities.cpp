@@ -51,8 +51,7 @@ void PhysicsEntities::render(fCord offset) {
         SDL_RenderTextureRotated(renderer, this->animation->img(), NULL,
                          dstrect, 0.0, NULL, SDL_FLIP_HORIZONTAL);
     else
-        SDL_RenderTexture(renderer, this->animation->img(), NULL,
-                         dstrect);
+        SDL_RenderTexture(renderer, this->animation->img(), NULL, dstrect);
 }
 
 SDL_FRect * PhysicsEntities::Rect() {
