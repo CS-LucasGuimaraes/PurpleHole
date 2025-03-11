@@ -60,6 +60,9 @@ class Game {
      *  false if the game has quit.
      */
     bool running() { return this->isRunning; }
+    
+    void restartLevel();
+    void nextLevel();
 
    private:
     bool isRunning = true;
@@ -77,6 +80,7 @@ class Game {
     void next_time();
 
     void camera_control();
+
 };
 }  // namespace PurpleHole
 

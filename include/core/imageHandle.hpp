@@ -19,8 +19,6 @@
 
 namespace PurpleHole {
 
-extern std::string BASE_PATH;
-
 /**
  * Create a texture from an image file using the class surface as base.
  *

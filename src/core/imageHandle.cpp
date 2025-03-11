@@ -16,17 +16,14 @@
 
 namespace PurpleHole {
 
-std::string BASE_PATH = "../../assets/images/";
-
 SDL_Texture * load_image(const char* path) {
     return IMG_LoadTexture(PurpleHole::renderer, path);
 }
 
 const std::vector<SDL_Texture *> load_images(const char* path) {
     std::vector<SDL_Texture *> images;
-    for (auto const& file :
-         std::filesystem::directory_iterator((BASE_PATH + path).c_str())) {
-        images.push_back(load_image((BASE_PATH + std::string(path) + "/" +
+    for (auto const& file : std::filesystem::directory_iterator((ASSETS_PATH + "images/" + path).c_str())) {
+        images.push_back(load_image((ASSETS_PATH + "images/" + std::string(path) + "/" +
                                      file.path().filename().string())
                                         .c_str()));
         std::clog << "    " << std::string(path) << "/"

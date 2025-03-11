@@ -26,6 +26,7 @@ const iCord kScreenSize = {1280, 720};
 const int kRenderScale = kScreenSize.x / kDisplaySize.x;
 const int kIdSize = 8;
 
+std::string ASSETS_PATH;
 int curr_id = 1;
 
 namespace font {
@@ -40,7 +41,7 @@ namespace font {
         
         initialized = true;
 
-        text = TTF_OpenFont("../../assets/fonts/Roboto-Regular.ttf", 16);
+        text = TTF_OpenFont((ASSETS_PATH + "fonts/Kenney-Future.ttf").c_str(), 16);
         if (text) {
             std::clog << "Font loaded successfully!\n";
         } else {
@@ -50,9 +51,36 @@ namespace font {
     }
 }  // namespace font
 
-bool Init(const char *title, SDL_Rect window_features, bool fullscreen) {
-    Uint32 screen_flags = 0;
+bool find_assets_path() {
+    std::ifstream f1("../../assets/assets");
+    if (f1.is_open()) {
+        ASSETS_PATH = "../../assets/";
+        return true;
+    }
 
+    std::ifstream f2("../assets/assets");
+    if (f2.is_open()) {
+        ASSETS_PATH = "../assets/";
+        return true;
+    }
+
+    std::ifstream f3("assets/assets");
+    if (f3.is_open()) {
+        ASSETS_PATH = "assets/";
+        return true;
+    }
+
+    std::cerr << "[WARNING!] ASSETS PATH NOT FOUND!\n";
+    return false;
+}
+
+bool Init(const char *title, SDL_Rect window_features, bool fullscreen) {
+
+    if (!find_assets_path()) {
+        return false;
+    }
+
+    Uint32 screen_flags = 0;
 
     if (fullscreen) {
         screen_flags |= SDL_WINDOW_FULLSCREEN;

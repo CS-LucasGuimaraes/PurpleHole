@@ -23,11 +23,13 @@
 
 namespace PurpleHole {
 
+class Game;
+
 class PhysicsEntities {
    friend class Collisions;
 
    public:
-    PhysicsEntities(std::string e_type, SDL_FRect initial_rect, Tilemap *** tilemap);
+    PhysicsEntities(std::string e_type, SDL_FRect initial_rect, Tilemap *** tilemap, Game* game);
     ~PhysicsEntities();
 
     /**
@@ -47,12 +49,12 @@ class PhysicsEntities {
     void render(fCord offset);
 
     SDL_FRect * Rect();
+    PurpleHole::fCord pos;
 
    protected:
     std::string type;
     std::string ID;
     std::string action = "";
-    PurpleHole::fCord pos;
     PurpleHole::iCord size;
     PurpleHole::fCord velocity = {0.0, 0.0};
     PurpleHole::RGB color_mod = {255, 255, 255};
@@ -60,9 +62,10 @@ class PhysicsEntities {
     std::map<std::string, bool> collisions;
     bool flip = false;
     Tilemap *** tilemap;
+    Game * game;
     Collisions * collisions_control;
-
-
+    
+    
     /**
      * Sets the action of the physics entity.
      *
@@ -83,18 +86,18 @@ class PhysicsEntities {
 };
 
 class Player : public PhysicsEntities {
-   public:
-    Player(SDL_FRect initial_rect, Tilemap*** tilemap);
+    public:
+    Player(SDL_FRect initial_rect, Tilemap*** tilemap, Game* game);
 
     void jump();
     void update(int movement = 0);
-   
-   protected:
+    
+    protected:
     int max_jumps;
     int cur_jumps;
     int air_time;
     bool in_air;
-
+    
     void jump_control();
     void wall_jump();
 

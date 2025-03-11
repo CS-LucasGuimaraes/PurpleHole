@@ -188,7 +188,6 @@ bool Editor::handleEvents() {
 }
 
 void Editor::update() {
-    std::cout << this->tile_group << ' ' << this->tile_variant << '\n';
     this->cameraControl();
 
     if (this->ongrid) {

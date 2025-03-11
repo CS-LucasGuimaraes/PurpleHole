@@ -14,12 +14,13 @@
 
 #include "classes/collisions.hpp"
 #include "classes/entities.hpp"
+#include "main/game.hpp"
 
 namespace PurpleHole {
 
 // public:
 
-Collisions::Collisions(PhysicsEntities * entity, Tilemap*** tilemap): tilemap(tilemap), entity(entity) {
+Collisions::Collisions(PhysicsEntities * entity, Tilemap*** tilemap, Game* game): tilemap(tilemap), entity(entity), game(game) {
     this->platform_isInside = 0;
 };
 
@@ -203,6 +204,8 @@ void Collisions::death_tiles_collisions() {
             std::string loc = std::to_string(int(rect->x/(**tilemap)->tile_size)) + ';' +
                         std::to_string(int(rect->y/(**tilemap)->tile_size));
             std::cout << "You died!" << std::endl;
+            this->game->restartLevel();
+            break;
         }
     }
 }

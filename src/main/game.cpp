@@ -17,14 +17,12 @@
 namespace PurpleHole {
 
 Game::Game() {
-    this->past = new Tilemap("past");
-    this->present = new Tilemap("present");
-    this->future = new Tilemap("future");
+    this->player = new Player({0, 0, 21, 21}, &tilemap, this);
+    this->restartLevel();
+
     this->ui = new UserInterface;
 
-    this->tilemap = &present;
     
-    this->player = new Player({0, 0, 21, 21}, &tilemap);
 }
 
 Game::~Game() {
@@ -166,4 +164,15 @@ void Game::render() {
     SDL_RenderPresent(renderer);
 }
 }
+
+void Game::restartLevel() {
+    this->past = new Tilemap("past");
+    this->present = new Tilemap("present");
+    this->future = new Tilemap("future");
+    this->tilemap = &present;
+    
+    this->player->pos.x = (*this->tilemap)->spawn.x;
+    this->player->pos.y = (*this->tilemap)->spawn.y;
+}
+
 }  // namespace PurpleHole

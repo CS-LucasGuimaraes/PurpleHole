@@ -20,10 +20,11 @@
 
 namespace PurpleHole {
 class PhysicsEntities;
+class Game;
 
 class Collisions {
    public:
-    Collisions(PhysicsEntities * entity, Tilemap*** tilemap);
+    Collisions(PhysicsEntities * entity, Tilemap*** tilemap, Game* game);
 
 
     void physics_tiles_collisions_X(float frame_movement);
@@ -43,6 +44,7 @@ class Collisions {
     Tilemap *** tilemap;
     PhysicsEntities* entity;
     int platform_isInside;
+    Game* game;
 
 };
 }  // namespace PurpleHole

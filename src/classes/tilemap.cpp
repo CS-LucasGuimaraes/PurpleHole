@@ -19,11 +19,12 @@ namespace PurpleHole {
 // public:
 
 Tilemap::Tilemap(std::string ID) : ID(ID) {
+    this->spawn = {0, 0};
+    
     this->load();
 
     this->dstR.h = this->tile_size;
     this->dstR.w = this->tile_size;
-    this->spawn = {0, 0};
 }
 
 void Tilemap::render(fCord offset, std::string mode) {
@@ -124,12 +125,15 @@ std::vector<SDL_FRect *> Tilemap::tilerects_around(fCord pos, std::string type) 
 
 void Tilemap::load(int lvl) {
     try {
-        std::ifstream f("../../assets/levels/level" + std::to_string(lvl) + "-" + this->ID + ".lvl");
+        std::ifstream f(ASSETS_PATH + "levels/level" + std::to_string(lvl) + "-" + this->ID + ".lvl");
         nlohmann::json data = nlohmann::json::parse(f);
 
         for (auto [k, v] : data.items()) {
             if (v["category"] == "spawn") {
-                this->spawn = {v["pos"][0], v["pos"][1]};
+                this->spawn = {
+                    (int(v["pos"][0]) * tile_size) + (tile_size/2),
+                    (int(v["pos"][1]) * tile_size) + (tile_size/2)
+                };
             }
             this->tilemap[k] = {
                 v["type"],
@@ -149,7 +153,7 @@ void Tilemap::load(int lvl) {
 }
 
 void Tilemap::save(int lvl) {
-    std::ofstream out("../../assets/levels/level" + std::to_string(lvl) + "-" + this->ID + ".lvl");
+    std::ofstream out(ASSETS_PATH + "levels/level" + std::to_string(lvl) + "-" + this->ID + ".lvl");
 
     nlohmann::json j;
 

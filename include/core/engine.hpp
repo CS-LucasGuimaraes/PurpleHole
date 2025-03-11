@@ -54,6 +54,7 @@ extern const iCord kScreenSize;
 extern const int kRenderScale;
 extern const int kIdSize;
 
+extern std::string ASSETS_PATH;
 extern int curr_id;
 
 namespace font {
@@ -65,6 +66,8 @@ namespace font {
 
     void init();
 }
+
+bool find_assets_path();
 
 /**
  * Initializes the game window, renderer, and sets up basic properties.

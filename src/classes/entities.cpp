@@ -13,24 +13,22 @@
 //    limitations under the License.
 
 #include "classes/entities.hpp"
+#include "main/game.hpp"
 
 namespace PurpleHole {
 
 // PhysicsEntities
 // public:
-PhysicsEntities::PhysicsEntities(std::string e_type, SDL_FRect initial_rect, Tilemap*** tilemap) : 
-    type(e_type), tilemap(tilemap), ID(GenID(e_type)){
+PhysicsEntities::PhysicsEntities(std::string e_type, SDL_FRect initial_rect, Tilemap*** tilemap, Game* game) : 
+    type(e_type), tilemap(tilemap), ID(GenID(e_type)), game(game) {
     // this->pos.x = initial_rect.x;
     // this->pos.y = initial_rect.y;
     this->size.x = initial_rect.h;
     this->size.y = initial_rect.w;
 
-    this->pos.x = (**tilemap)->spawn.x;
-    this->pos.y = (**tilemap)->spawn.y; 
-
     this->set_action("idle");
 
-    this->collisions_control = new Collisions(this, this->tilemap);
+    this->collisions_control = new Collisions(this, this->tilemap, this->game);
 }
 PhysicsEntities::~PhysicsEntities() {
     std::clog << "PhysicsEntities class (" << this->type << ':' << this->ID
@@ -128,7 +126,7 @@ void PhysicsEntities::facing_side(int movement) {
 
 // Player
 // public:
-Player::Player(SDL_FRect initial_rect, Tilemap *** tilemap) : PhysicsEntities("player", initial_rect, tilemap) {
+Player::Player(SDL_FRect initial_rect, Tilemap *** tilemap, Game* game) : PhysicsEntities("player", initial_rect, tilemap, game) {
     this->max_jumps = 2;
     this->cur_jumps = 0;
     this->air_time = 0;
