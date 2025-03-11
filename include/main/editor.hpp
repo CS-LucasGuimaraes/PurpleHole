@@ -81,20 +81,20 @@ class Editor {
     bool right_clicking = false;
     bool ongrid = true;
 
-    SDL_Texture * get_curr_tile();
+    SDL_Texture* get_curr_tile();
 
     std::vector<std::pair<std::string, std::string>> tile_list = {
         {"decor", "decoration"},
         {"grass", "Physical"},
         {"large_decor", "decoration"},
         {"snow", "Physical"},
-        {"cloud_platform", "Physical"},
+        {"cloud_platform", "Platform"},
         {"scaffolding", "Physical"},
         {"boxes", "Physical"},
-        {"heart", "Collectable"},
-        {"coin", "animated/Collectable"},
-        {"diamond", "Collectable"},
-        {"crates", "Physical"},
+        {"heart", "Collectible"},
+        {"coin", "animated/Collectible"},
+        {"diamond", "Collectible"},
+        {"crates", "Crate"},
         {"key_door", "Physical"},
         {"door", "Physical"},
         {"fence", "Physical"},
@@ -122,16 +122,14 @@ class Editor {
         {"box_industrial", "Physical"},
         {"chest", "Physical"},
         {"gears", "Physical"},
-        {"stone", "Crate"}
-        };
+        {"dye_point", "EditorOnly/dye"},
+        {"spawn_point", "EditorOnly/spawn"},
+    };
     short tile_group = 0;
     short tile_variant = 0;
 
     std::map<std::string, bool> modifiers = {
-        {"ctrl", false},
-        {"shift", false},
-        {"alt", false}
-    };
+        {"ctrl", false}, {"shift", false}, {"alt", false}};
 };
 }  // namespace PurpleHole
 

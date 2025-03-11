@@ -16,6 +16,7 @@
 #define PURPLEHOLE_CORE_GAME_HPP_
 
 #include "classes/entities.hpp"
+#include "classes/interface.hpp"
 #include "classes/tilemap.hpp"
 #include "core/assets.hpp"
 #include "core/keybinds.hpp"
@@ -70,6 +71,10 @@ class Game {
     fCord offset = {0, 0};
     std::pair<int, int> movement = {0, 0};
     std::map<SDL_Gamepad*, Player*> Gamepad2Player;
+    UserInterface* ui;
+
+    void previous_time();
+    void next_time();
 
     void camera_control();
 };

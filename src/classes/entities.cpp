@@ -20,10 +20,13 @@ namespace PurpleHole {
 // public:
 PhysicsEntities::PhysicsEntities(std::string e_type, SDL_FRect initial_rect, Tilemap*** tilemap) : 
     type(e_type), tilemap(tilemap), ID(GenID(e_type)){
-    this->pos.x = initial_rect.x;
-    this->pos.y = initial_rect.y;
+    // this->pos.x = initial_rect.x;
+    // this->pos.y = initial_rect.y;
     this->size.x = initial_rect.h;
     this->size.y = initial_rect.w;
+
+    this->pos.x = (**tilemap)->spawn.x;
+    this->pos.y = (**tilemap)->spawn.y; 
 
     this->set_action("idle");
 
@@ -84,16 +87,21 @@ void PhysicsEntities::movement_and_collide(int movement) {
     }
     collisions_control->physics_tiles_collisions_X(movement+this->velocity.x);
     collisions_control->crates_tiles_collisions_X(movement+this->velocity.x);
+    collisions_control->platform_tiles_collisions_X(movement+this->velocity.x);
     
-
-
+    
+    
     this->pos.y += this->velocity.y;
     if (this->type == "Player") {
         ;
     }
+    
     collisions_control->physics_tiles_collisions_Y(this->velocity.y);
     collisions_control->crates_tiles_collisions_Y(this->velocity.y);
+    collisions_control->platform_tiles_collisions_Y(this->velocity.y);
 
+    collisions_control->collectibles_tiles_collisions();
+    collisions_control->death_tiles_collisions();
 }
 
 void PhysicsEntities::movement_physics() {

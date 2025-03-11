@@ -19,6 +19,10 @@ namespace PurpleHole {
 
 // public:
 
+Collisions::Collisions(PhysicsEntities * entity, Tilemap*** tilemap): tilemap(tilemap), entity(entity) {
+    this->platform_isInside = 0;
+};
+
 void Collisions::physics_tiles_collisions_X(float frame_movement) {
     SDL_FRect* entity_rect = entity->Rect();
     for (auto rect : (**tilemap)->tilerects_around(entity->pos, "Physical")) {
@@ -104,6 +108,8 @@ void Collisions::crates_tiles_collisions_X(float frame_movement) {
     }
 }
 
+
+
 void Collisions::crates_tiles_collisions_Y(float frame_movement) {
     SDL_FRect* entity_rect = entity->Rect();
     for (auto rect : (**tilemap)->tilerects_around(entity->pos, "Crate")) {
@@ -122,6 +128,81 @@ void Collisions::crates_tiles_collisions_Y(float frame_movement) {
                 entity->pos.y = entity_rect->y;
                 break;
             }
+        }
+    }
+}
+
+void Collisions::platform_tiles_collisions_X(float frame_movement) {
+    SDL_FRect* entity_rect = entity->Rect();
+    for (auto rect : (**tilemap)->tilerects_around(entity->pos, "Platform")) {
+        SDL_FRect * rs = new SDL_FRect();
+        if (SDL_GetRectIntersectionFloat(entity_rect, rect,rs)) 
+        if (rs->h > 0) {
+            if (!platform_isInside){
+                if (frame_movement > 0) {
+                    entity->collisions["right"] = true;
+                    entity_rect->x = rect->x - entity_rect->w;
+                }
+                else if (frame_movement < 0) {
+                    entity->collisions["left"] = true;
+                    entity_rect->x = rect->x + rect->w;
+                }
+                if (frame_movement != 0) {
+                    entity->pos.x = entity_rect->x;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+void Collisions::platform_tiles_collisions_Y(float frame_movement) {
+    SDL_FRect* entity_rect = entity->Rect();
+    for (auto rect : (**tilemap)->tilerects_around(entity->pos, "Platform")) {
+        SDL_FRect * rs = new SDL_FRect();
+        if (SDL_GetRectIntersectionFloat(entity_rect, rect, rs)) 
+        if (rs->w > 0) {
+            if (frame_movement < 0 || this->platform_isInside) {
+                this->platform_isInside = 2;
+                // entity->collisions["up"] = true;
+                // entity_rect->y = rect->y + rect->h;
+            }
+            else if (frame_movement > 0) {
+                entity->collisions["down"] = true;
+                entity_rect->y = rect->y - entity_rect->h;
+            }
+
+            if (frame_movement != 0 || !this->platform_isInside) {
+                entity->pos.y = entity_rect->y;
+                break;
+            }
+        }
+        this->platform_isInside = std::max(0, this->platform_isInside - 1);
+    }
+}
+
+void Collisions::collectibles_tiles_collisions() {
+    SDL_FRect* entity_rect = entity->Rect();
+    for (auto rect : (**tilemap)->tilerects_around(entity->pos, "Collectible")) {
+        SDL_FRect * rs = new SDL_FRect();
+        if (SDL_GetRectIntersectionFloat(entity_rect, rect,rs)) 
+        if (rs->h > 0) {
+            std::string loc = std::to_string(int(rect->x/(**tilemap)->tile_size)) + ';' +
+                        std::to_string(int(rect->y/(**tilemap)->tile_size));
+            (**tilemap)->tilemap.erase(loc);
+        }
+    }
+}
+
+void Collisions::death_tiles_collisions() {
+    SDL_FRect* entity_rect = entity->Rect();
+    for (auto rect : (**tilemap)->tilerects_around(entity->pos, "dye")) {
+        SDL_FRect * rs = new SDL_FRect();
+        if (SDL_GetRectIntersectionFloat(entity_rect, rect,rs)) 
+        if (rs->h > 0) {
+            std::string loc = std::to_string(int(rect->x/(**tilemap)->tile_size)) + ';' +
+                        std::to_string(int(rect->y/(**tilemap)->tile_size));
+            std::cout << "You died!" << std::endl;
         }
     }
 }

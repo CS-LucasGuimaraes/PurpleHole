@@ -19,6 +19,7 @@ namespace PurpleHole {
 SDL_Window *screen = nullptr;
 SDL_Renderer *renderer = nullptr;
 SDL_Texture *display = nullptr;
+SDL_Texture *interface = nullptr;
 
 const iCord kDisplaySize = {640, 360};
 const iCord kScreenSize = {1280, 720};
@@ -26,6 +27,28 @@ const int kRenderScale = kScreenSize.x / kDisplaySize.x;
 const int kIdSize = 8;
 
 int curr_id = 1;
+
+namespace font {
+    TTF_Font *title = nullptr;
+    TTF_Font *subtitle = nullptr;
+    TTF_Font *text = nullptr;
+
+    bool initialized = false;
+    
+    void init() {
+        if (initialized) return;
+        
+        initialized = true;
+
+        text = TTF_OpenFont("../../assets/fonts/Roboto-Regular.ttf", 16);
+        if (text) {
+            std::clog << "Font loaded successfully!\n";
+        } else {
+            std::cerr << "[WARNING!] FONT LOADING FAILED!\n"
+                      << "     [SDL]: " << SDL_GetError() << '\n';
+        }
+    }
+}  // namespace font
 
 bool Init(const char *title, SDL_Rect window_features, bool fullscreen) {
     Uint32 screen_flags = 0;
@@ -52,7 +75,7 @@ bool Init(const char *title, SDL_Rect window_features, bool fullscreen) {
         if (renderer) {
             std::clog << "Redereer created sucessfully!\n";
 
-            SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
         } else {
             std::cerr << "[WARNING!] RENDERER INITIALIZATION FAILED!\n"
                       << "     [SDL]: " << SDL_GetError() << '\n';
@@ -71,11 +94,31 @@ bool Init(const char *title, SDL_Rect window_features, bool fullscreen) {
                 << "     [SDL]: " << SDL_GetError() << '\n';
         }
 
-        return true;
+        interface = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
+            SDL_TEXTUREACCESS_TARGET, kScreenSize.x, kScreenSize.y);
+        
+        if (interface) {
+        std::clog << "Interface (render target) created sucessfully!\n";
+        // SDL_SetTextureScaleMode(display, SDL_SCALEMODE_NEAREST);
+
+        } else {
+        std::cerr
+        << "[WARNING!] INTERFACE (RENDER TARGET) INITIALIZATION FAILED!\n"
+        << "     [SDL]: " << SDL_GetError() << '\n';
+        }
     } else {
-        std::cerr << "[WARNING!] SDL2 INITIALIZATION FAILED!\n";
+        std::cerr << "[WARNING!] SDL3 INITIALIZATION FAILED!\n";
         return false;
     }
+
+    if (TTF_Init()) {
+        std::clog << "SDL_ttf initialized!...\n";
+    } else {
+        std::cerr << "[WARNING!] SDL_TTF INITIALIZATION FAILED!\n"
+                  << "     [SDL]: " << SDL_GetError() << '\n';
+    }
+
+    return true;
 }
 
 void Shutdown() {

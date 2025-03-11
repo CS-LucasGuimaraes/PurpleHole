@@ -27,8 +27,7 @@ bool init() {
     };
 
     animated_tiles = {
-        {"coin", new Animation (load_images("tiles/coin"))},
-
+        {"coin", new Animation (load_images("tiles/coin"), 10)},
     };
 
     tiles = {
@@ -69,8 +68,8 @@ bool init() {
         {"box_industrial", load_images("tiles/box_industrial")},
         {"chest", load_images("tiles/chests")},
         {"gears", load_images("tiles/gears")},
-        
-        {"stone", load_images("tiles/boxes")},
+        {"dye_point", load_images("tiles/dye_point")},
+        {"spawn_point", load_images("tiles/spawn_point")},
     };
 
     return true;

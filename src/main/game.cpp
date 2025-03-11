@@ -20,6 +20,7 @@ Game::Game() {
     this->past = new Tilemap("past");
     this->present = new Tilemap("present");
     this->future = new Tilemap("future");
+    this->ui = new UserInterface;
 
     this->tilemap = &present;
     
@@ -30,6 +31,27 @@ Game::~Game() {
     delete this->player;
     std::clog << "Game class successfully destroyed!\n";
 }
+
+void Game::previous_time() {
+    if (*this->tilemap == this->present) {
+        this->tilemap = &this->past;
+
+    } else
+    if (*this->tilemap == this->future) {
+        this->tilemap = &this->present;
+    }
+}
+
+void Game::next_time() {
+    if (*this->tilemap == this->past) {
+        this->tilemap = &this->present;
+
+    } else
+    if (*this->tilemap == this->present) {
+        this->tilemap = &this->future;
+    }
+}
+
 
 bool Game::handleEvents() {
     SDL_Event event;
@@ -65,6 +87,14 @@ bool Game::handleEvents() {
                 if (event.gbutton.button == keybinds::keymap["jump"].controller) {
                     this->player->jump();
                 }
+                if (event.gbutton.button == keybinds::keymap["previous"].controller) {
+                    previous_time();
+                    break;
+                }
+                if (event.gbutton.button == keybinds::keymap["next"].controller) {
+                    next_time();
+                    break;
+                }
             break;
 
             case SDL_EVENT_KEY_DOWN:
@@ -78,29 +108,12 @@ bool Game::handleEvents() {
                     this->player->jump();
                 }
                 else if (event.key.key == keybinds::keymap["previous"].main || event.key.key == keybinds::keymap["previous"].secondary) {
-                    if (*this->tilemap == this->past) {
-                        continue;
-                    } else
-                    if (*this->tilemap == this->present) {
-                        this->tilemap = &this->past;
-
-                    } else
-                    if (*this->tilemap == this->future) {
-                        this->tilemap = &this->present;
-                    }
+                    previous_time();
                     break;
                 }
                 else if (event.key.key == keybinds::keymap["next"].main || event.key.key == keybinds::keymap["next"].secondary) {
-                     if (*this->tilemap == this->past) {
-                        this->tilemap = &this->present;
-                    } else
-                    if (*this->tilemap == this->present) {
-                        this->tilemap = &this->future;
-
-                    } else
-                    if (*this->tilemap == this->future) {
-                        continue;
-                    }
+                    next_time();
+                    break;
                 }
             break;
 
@@ -128,17 +141,29 @@ void Game::camera_control() {
 }
 
 void Game::render() {
+{
     SDL_SetRenderTarget(renderer, display);
     SDL_RenderClear(renderer);
 
     this->player->render(this->offset);
     (*this->tilemap)->render(this->offset);
-
-    SDL_SetRenderTarget(renderer, NULL);
+}
+    
+{   
+    SDL_SetRenderTarget(renderer, interface);
     SDL_RenderClear(renderer);
 
-    SDL_RenderTexture(renderer, display, NULL, NULL);
+    ui->render();
+}
 
+{
+    SDL_SetRenderTarget(renderer, NULL);
+    SDL_RenderClear(renderer);
+    
+    SDL_RenderTexture(renderer, display, NULL, NULL);
+    SDL_RenderTexture(renderer, interface, NULL, NULL);
+    
     SDL_RenderPresent(renderer);
+}
 }
 }  // namespace PurpleHole

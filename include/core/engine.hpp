@@ -19,6 +19,7 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 #include "nlohmann/json.hpp"
 
@@ -46,6 +47,7 @@ struct fCord {
 extern SDL_Window *screen;
 extern SDL_Renderer *renderer;
 extern SDL_Texture *display;
+extern SDL_Texture *interface;
 
 extern const iCord kDisplaySize;
 extern const iCord kScreenSize;
@@ -53,6 +55,16 @@ extern const int kRenderScale;
 extern const int kIdSize;
 
 extern int curr_id;
+
+namespace font {
+    extern TTF_Font *title;
+    extern TTF_Font *subtitle;
+    extern TTF_Font *text;
+    
+    extern bool initialized;
+
+    void init();
+}
 
 /**
  * Initializes the game window, renderer, and sets up basic properties.

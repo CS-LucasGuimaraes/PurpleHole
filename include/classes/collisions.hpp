@@ -23,7 +23,7 @@ class PhysicsEntities;
 
 class Collisions {
    public:
-    Collisions(PhysicsEntities * entity, Tilemap*** tilemap): tilemap(tilemap), entity(entity) {};
+    Collisions(PhysicsEntities * entity, Tilemap*** tilemap);
 
 
     void physics_tiles_collisions_X(float frame_movement);
@@ -31,11 +31,18 @@ class Collisions {
     
     void crates_tiles_collisions_X(float frame_movement);
     void crates_tiles_collisions_Y(float frame_movement);
+
+    void platform_tiles_collisions_X(float frame_movement);
+    void platform_tiles_collisions_Y(float frame_movement);
+    
+    void collectibles_tiles_collisions();
+    void death_tiles_collisions();
     
             
    private:
     Tilemap *** tilemap;
     PhysicsEntities* entity;
+    int platform_isInside;
 
 };
 }  // namespace PurpleHole

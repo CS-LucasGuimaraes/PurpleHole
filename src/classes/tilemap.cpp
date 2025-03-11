@@ -18,8 +18,18 @@ namespace PurpleHole {
 
 // public:
 
-void Tilemap::render(fCord offset) {
+Tilemap::Tilemap(std::string ID) : ID(ID) {
+    this->load();
+
+    this->dstR.h = this->tile_size;
+    this->dstR.w = this->tile_size;
+    this->spawn = {0, 0};
+}
+
+void Tilemap::render(fCord offset, std::string mode) {
     std::map<std::string, tile>::iterator tile;
+
+    this->updated.clear();
 
     for (int x = DivFloor(offset.x, this->tile_size);
          x < DivFloor(offset.x + kDisplaySize.x, this->tile_size) + 1; x++) {
@@ -28,19 +38,21 @@ void Tilemap::render(fCord offset) {
              y++) {
             std::string loc = std::to_string(x) + ';' + std::to_string(y);
             if ((tile = this->tilemap.find(loc)) != this->tilemap.end()) {
-                if (tile->second.render == "animated") {
+                if (tile->second.render == "EditorOnly" && mode != "editor")
+                    continue;
+                else if (tile->second.render == "animated") {
                     this->dstR.x = x * this->tile_size - offset.x;
                     this->dstR.y = y * this->tile_size - offset.y;
                     SDL_RenderTexture(
                         renderer,
                         assets::animated_tiles[tile->second.type]->img(),
                         NULL, &this->dstR);
-                }
 
-                else if (tile->second.render == "editor_only") {
-                    //
+                    if (this->updated.count(tile->second.type) == 0) {
+                        updated.insert(tile->second.type);
+                        assets::animated_tiles[tile->second.type]->update();
+                    }
                 }
-
                 else {
                     this->dstR.x = x * this->tile_size - offset.x;
                     this->dstR.y = y * this->tile_size - offset.y;
@@ -116,6 +128,9 @@ void Tilemap::load(int lvl) {
         nlohmann::json data = nlohmann::json::parse(f);
 
         for (auto [k, v] : data.items()) {
+            if (v["category"] == "spawn") {
+                this->spawn = {v["pos"][0], v["pos"][1]};
+            }
             this->tilemap[k] = {
                 v["type"],
                 v["variant"],

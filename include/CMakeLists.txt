@@ -1,9 +1,10 @@
 add_library(Purplehole)
 
-target_sources(Purplehole PUBLIC 
+target_sources(Purplehole PRIVATE 
 ../src/classes/animation.cpp 
 ../src/classes/collisions.cpp 
 ../src/classes/entities.cpp 
+../src/classes/interface.cpp 
 ../src/classes/tilemap.cpp 
 
 ../src/core/assets.cpp 
@@ -20,6 +21,7 @@ target_sources(Purplehole PUBLIC
 ./classes/animation.hpp 
 ./classes/collisions.hpp 
 ./classes/entities.hpp 
+./classes/interface.hpp 
 ./classes/tilemap.hpp 
 
 ./core/assets.hpp 

@@ -13,8 +13,8 @@
 //     You should have received a copy of the GNU General Public License
 //     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef PURPLEHOLE_CORE_TILEMAP_HPP_
-#define PURPLEHOLE_CORE_TILEMAP_HPP_
+#ifndef PURPLEHOLE_CLASSES_TILEMAP_HPP_
+#define PURPLEHOLE_CLASSES_TILEMAP_HPP_
 
 #include "classes/animation.hpp"
 #include "core/assets.hpp"
@@ -40,12 +40,7 @@ class Tilemap {
    public:
     int tile_size = 32;
 
-    Tilemap(std::string ID) : ID(ID) {
-        this->load();
-
-        this->dstR.h = this->tile_size;
-        this->dstR.w = this->tile_size;
-    }
+    Tilemap(std::string ID);
     ~Tilemap() {
         this->save();
     }
@@ -55,7 +50,7 @@ class Tilemap {
      *
      * \returns (void): This function does not return a value.
      */
-    void render(fCord offset);
+    void render(fCord offset, std::string mode = "game");
 
     std::vector<SDL_FRect *> tilerects_around(iCord pos, std::string type);
     std::vector<SDL_FRect *> tilerects_around(fCord pos, std::string type);
@@ -66,10 +61,12 @@ class Tilemap {
 
     std::map<std::string, tile> tilemap;
 
+    iCord spawn;
    private:
     std::string ID;
     SDL_FRect dstR;
+    std::set<std::string> updated;
 };
 }  // namespace PurpleHole
 
-#endif  // PURPLEHOLE_CORE_TILEMAP_HPP_
+#endif  // PURPLEHOLE_CLASSES_TILEMAP_HPP_
