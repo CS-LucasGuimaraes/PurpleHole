@@ -1,0 +1,4 @@
+- Interface system (medium)
+- Local Multiplayer setup (easy)
+- Level Design (hard)
+- Checkpoint + nextlevel (easy) 
