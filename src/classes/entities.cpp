@@ -98,7 +98,7 @@ void PhysicsEntities::movement_and_collide(int movement) {
     collisions_control->platform_collision_Y(this->velocity.y);
 
     collisions_control->collectibles_collision();
-    collisions_control->Damage_collision();
+    collisions_control->damage_collision();
 }
 
 void PhysicsEntities::movement_physics() {

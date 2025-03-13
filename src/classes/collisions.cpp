@@ -207,9 +207,28 @@ void Collisions::collectibles_collision() {
     }
 }
 
-void Collisions::Damage_collision() {
+void Collisions::damage_collision() {
     SDL_FRect* entity_rect = entity->Rect();
     for (auto rect : (**tilemap)->tilerects_around(entity->pos, "Damage")) {
+        SDL_FRect * rs = new SDL_FRect();
+        if (SDL_GetRectIntersectionFloat(entity_rect, rect,rs)) 
+        if (rs->h > 0) {
+            std::string loc = std::to_string(int(rect->x/(**tilemap)->tile_size)) + ';' +
+                        std::to_string(int(rect->y/(**tilemap)->tile_size));
+
+            this->entity->life--;
+            if ((**tilemap)->tilemap[loc].type == "death_point") this->entity->life = 0;
+
+            this->entity->pos.x = this->entity->checkpoint.x;
+            this->entity->pos.y = this->entity->checkpoint.y;
+            return;
+        }
+    }
+}
+
+void Collisions::checkpoint_collision() {
+    SDL_FRect* entity_rect = entity->Rect();
+    for (auto rect : (**tilemap)->tilerects_around(entity->pos, "Checkpoint")) {
         SDL_FRect * rs = new SDL_FRect();
         if (SDL_GetRectIntersectionFloat(entity_rect, rect,rs)) 
         if (rs->h > 0) {

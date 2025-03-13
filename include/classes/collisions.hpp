@@ -37,7 +37,10 @@ class Collisions {
     void platform_collision_Y(float frame_movement);
     
     void collectibles_collision();
-    void Damage_collision();
+    
+    void damage_collision();
+    
+    void checkpoint_collision(); 
     
             
    private:
