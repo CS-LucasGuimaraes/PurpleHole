@@ -27,17 +27,17 @@ class Collisions {
     Collisions(PhysicsEntities * entity, Tilemap*** tilemap, Game* game);
 
 
-    void physics_tiles_collisions_X(float frame_movement);
-    void physics_tiles_collisions_Y(float frame_movement);
+    void physics_collision_X(float frame_movement);
+    void physics_collision_Y(float frame_movement);
     
-    void crates_tiles_collisions_X(float frame_movement);
-    void crates_tiles_collisions_Y(float frame_movement);
+    void crates_collision_X(float frame_movement);
+    void crates_collision_Y(float frame_movement);
 
-    void platform_tiles_collisions_X(float frame_movement);
-    void platform_tiles_collisions_Y(float frame_movement);
+    void platform_collision_X(float frame_movement);
+    void platform_collision_Y(float frame_movement);
     
-    void collectibles_tiles_collisions();
-    void death_tiles_collisions();
+    void collectibles_collision();
+    void Damage_collision();
     
             
    private:

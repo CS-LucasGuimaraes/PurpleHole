@@ -24,7 +24,7 @@ Collisions::Collisions(PhysicsEntities * entity, Tilemap*** tilemap, Game* game)
     this->platform_isInside = 0;
 };
 
-void Collisions::physics_tiles_collisions_X(float frame_movement) {
+void Collisions::physics_collision_X(float frame_movement) {
     SDL_FRect* entity_rect = entity->Rect();
     for (auto rect : (**tilemap)->tilerects_around(entity->pos, "Physical")) {
         SDL_FRect * rs = new SDL_FRect();
@@ -46,7 +46,7 @@ void Collisions::physics_tiles_collisions_X(float frame_movement) {
     }
 }
 
-void Collisions::physics_tiles_collisions_Y(float frame_movement) {
+void Collisions::physics_collision_Y(float frame_movement) {
     SDL_FRect* entity_rect = entity->Rect();
     for (auto rect : (**tilemap)->tilerects_around(entity->pos, "Physical")) {
         SDL_FRect * rs = new SDL_FRect();
@@ -69,7 +69,7 @@ void Collisions::physics_tiles_collisions_Y(float frame_movement) {
 }
 
 
-void Collisions::crates_tiles_collisions_X(float frame_movement) {
+void Collisions::crates_collision_X(float frame_movement) {
     SDL_FRect* entity_rect = entity->Rect();
     for (auto rect : (**tilemap)->tilerects_around(entity->pos, "Crate")) {
         SDL_FRect * rs = new SDL_FRect();
@@ -82,11 +82,17 @@ void Collisions::crates_tiles_collisions_X(float frame_movement) {
                 std::string newloc = std::to_string(int(rect->x/(**tilemap)->tile_size)+1) + ';' +
                           std::to_string(int(rect->y/(**tilemap)->tile_size));
                 
-                auto tmp = (**tilemap)->tilemap[loc];
-                tmp.pos.x++;
-                
-                (**tilemap)->tilemap.erase(loc);
-                (**tilemap)->tilemap[newloc] = tmp;
+                if ((**tilemap)->tilemap.find(newloc) != (**tilemap)->tilemap.end()) {
+                    entity->collisions["right"] = true;
+                    entity_rect->x = rect->x - entity_rect->w;
+                }
+                else {
+                    auto tmp = (**tilemap)->tilemap[loc];
+                    tmp.pos.x++;
+                    
+                    (**tilemap)->tilemap.erase(loc);
+                    (**tilemap)->tilemap[newloc] = tmp;
+                }
             }
             else if (frame_movement < 0) {
                 std::string loc = std::to_string(int(rect->x/(**tilemap)->tile_size)) + ';' +
@@ -95,11 +101,17 @@ void Collisions::crates_tiles_collisions_X(float frame_movement) {
                 std::string newloc = std::to_string(int(rect->x/(**tilemap)->tile_size)-1) + ';' +
                           std::to_string(int(rect->y/(**tilemap)->tile_size));
                 
-                auto tmp = (**tilemap)->tilemap[loc];
-                tmp.pos.x--;
-                
-                (**tilemap)->tilemap.erase(loc);
-                (**tilemap)->tilemap[newloc] = tmp;
+                if ((**tilemap)->tilemap.find(newloc) != (**tilemap)->tilemap.end()) {
+                    entity->collisions["left"] = true;
+                    entity_rect->x = rect->x + rect->w;
+                }
+                else {
+                    auto tmp = (**tilemap)->tilemap[loc];
+                    tmp.pos.x--;
+                    
+                    (**tilemap)->tilemap.erase(loc);
+                    (**tilemap)->tilemap[newloc] = tmp;
+                }
             }
             if (frame_movement != 0) {
                 entity->pos.x = entity_rect->x;
@@ -111,7 +123,7 @@ void Collisions::crates_tiles_collisions_X(float frame_movement) {
 
 
 
-void Collisions::crates_tiles_collisions_Y(float frame_movement) {
+void Collisions::crates_collision_Y(float frame_movement) {
     SDL_FRect* entity_rect = entity->Rect();
     for (auto rect : (**tilemap)->tilerects_around(entity->pos, "Crate")) {
         SDL_FRect * rs = new SDL_FRect();
@@ -133,7 +145,7 @@ void Collisions::crates_tiles_collisions_Y(float frame_movement) {
     }
 }
 
-void Collisions::platform_tiles_collisions_X(float frame_movement) {
+void Collisions::platform_collision_X(float frame_movement) {
     SDL_FRect* entity_rect = entity->Rect();
     for (auto rect : (**tilemap)->tilerects_around(entity->pos, "Platform")) {
         SDL_FRect * rs = new SDL_FRect();
@@ -157,7 +169,7 @@ void Collisions::platform_tiles_collisions_X(float frame_movement) {
     }
 }
 
-void Collisions::platform_tiles_collisions_Y(float frame_movement) {
+void Collisions::platform_collision_Y(float frame_movement) {
     SDL_FRect* entity_rect = entity->Rect();
     for (auto rect : (**tilemap)->tilerects_around(entity->pos, "Platform")) {
         SDL_FRect * rs = new SDL_FRect();
@@ -182,7 +194,7 @@ void Collisions::platform_tiles_collisions_Y(float frame_movement) {
     }
 }
 
-void Collisions::collectibles_tiles_collisions() {
+void Collisions::collectibles_collision() {
     SDL_FRect* entity_rect = entity->Rect();
     for (auto rect : (**tilemap)->tilerects_around(entity->pos, "Collectible")) {
         SDL_FRect * rs = new SDL_FRect();
@@ -195,17 +207,21 @@ void Collisions::collectibles_tiles_collisions() {
     }
 }
 
-void Collisions::death_tiles_collisions() {
+void Collisions::Damage_collision() {
     SDL_FRect* entity_rect = entity->Rect();
-    for (auto rect : (**tilemap)->tilerects_around(entity->pos, "dye")) {
+    for (auto rect : (**tilemap)->tilerects_around(entity->pos, "Damage")) {
         SDL_FRect * rs = new SDL_FRect();
         if (SDL_GetRectIntersectionFloat(entity_rect, rect,rs)) 
         if (rs->h > 0) {
             std::string loc = std::to_string(int(rect->x/(**tilemap)->tile_size)) + ';' +
                         std::to_string(int(rect->y/(**tilemap)->tile_size));
-            std::cout << "You died!" << std::endl;
-            this->game->restartLevel();
-            break;
+
+            this->entity->life--;
+            if ((**tilemap)->tilemap[loc].type == "death_point") this->entity->life = 0;
+
+            this->entity->pos.x = this->entity->checkpoint.x;
+            this->entity->pos.y = this->entity->checkpoint.y;
+            return;
         }
     }
 }

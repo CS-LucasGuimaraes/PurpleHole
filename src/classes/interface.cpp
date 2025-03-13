@@ -34,7 +34,7 @@ void UserInterface::render_text(std::string text, SDL_FRect* dst, SDL_Color colo
         SDL_Log("Couldn't create text: %s\n", SDL_GetError());
     }
 
-    SDL_RenderTexture(renderer, texture, NULL, NULL);
+    // SDL_RenderTexture(renderer, texture, NULL, NULL);
     SDL_DestroyTexture(texture);
 }
 

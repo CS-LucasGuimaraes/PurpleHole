@@ -68,7 +68,7 @@ bool init() {
         {"box_industrial", load_images("tiles/box_industrial")},
         {"chest", load_images("tiles/chests")},
         {"gears", load_images("tiles/gears")},
-        {"dye_point", load_images("tiles/dye_point")},
+        {"death_point", load_images("tiles/death_point")},
         {"spawn_point", load_images("tiles/spawn_point")},
     };
 

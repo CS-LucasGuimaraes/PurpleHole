@@ -29,7 +29,7 @@ class PhysicsEntities {
    friend class Collisions;
 
    public:
-    PhysicsEntities(std::string e_type, SDL_FRect initial_rect, Tilemap *** tilemap, Game* game);
+    PhysicsEntities(std::string e_type, SDL_FRect initial_rect, Tilemap *** tilemap, Game* game, int max_life = 1);
     ~PhysicsEntities();
 
     /**
@@ -40,18 +40,19 @@ class PhysicsEntities {
      * @returns (void): This function does not return a value.
      */
     void update(int movement = 0);
-
+    
     /**
      *  Render the entity's animation onto the PurpleHole::renderer surface.
      *
      * \returns (void): This function does not return a value.
      */
     void render(fCord offset);
-
+    
     SDL_FRect * Rect();
     PurpleHole::fCord pos;
-
-   protected:
+    iCord checkpoint;
+    
+    protected:
     std::string type;
     std::string ID;
     std::string action = "";
@@ -64,7 +65,8 @@ class PhysicsEntities {
     Tilemap *** tilemap;
     Game * game;
     Collisions * collisions_control;
-    
+    int max_life;
+    int life;
     
     /**
      * Sets the action of the physics entity.

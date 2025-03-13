@@ -19,10 +19,9 @@ namespace PurpleHole {
 
 // PhysicsEntities
 // public:
-PhysicsEntities::PhysicsEntities(std::string e_type, SDL_FRect initial_rect, Tilemap*** tilemap, Game* game) : 
-    type(e_type), tilemap(tilemap), ID(GenID(e_type)), game(game) {
-    // this->pos.x = initial_rect.x;
-    // this->pos.y = initial_rect.y;
+PhysicsEntities::PhysicsEntities(std::string e_type, SDL_FRect initial_rect, Tilemap*** tilemap, Game* game, int max_life) : type(e_type), tilemap(tilemap), ID(GenID(e_type)), game(game), max_life(max_life) {
+    this->life = this->max_life;
+
     this->size.x = initial_rect.h;
     this->size.y = initial_rect.w;
 
@@ -83,23 +82,23 @@ void PhysicsEntities::movement_and_collide(int movement) {
     if (this->type == "Player") {
         ;
     }
-    collisions_control->physics_tiles_collisions_X(movement+this->velocity.x);
-    collisions_control->crates_tiles_collisions_X(movement+this->velocity.x);
-    collisions_control->platform_tiles_collisions_X(movement+this->velocity.x);
+    collisions_control->physics_collision_X(movement+this->velocity.x);
+    collisions_control->crates_collision_X(movement+this->velocity.x);
+    collisions_control->platform_collision_X(movement+this->velocity.x);
     
     
-    
+
     this->pos.y += this->velocity.y;
     if (this->type == "Player") {
         ;
     }
     
-    collisions_control->physics_tiles_collisions_Y(this->velocity.y);
-    collisions_control->crates_tiles_collisions_Y(this->velocity.y);
-    collisions_control->platform_tiles_collisions_Y(this->velocity.y);
+    collisions_control->physics_collision_Y(this->velocity.y);
+    collisions_control->crates_collision_Y(this->velocity.y);
+    collisions_control->platform_collision_Y(this->velocity.y);
 
-    collisions_control->collectibles_tiles_collisions();
-    collisions_control->death_tiles_collisions();
+    collisions_control->collectibles_collision();
+    collisions_control->Damage_collision();
 }
 
 void PhysicsEntities::movement_physics() {
@@ -126,7 +125,7 @@ void PhysicsEntities::facing_side(int movement) {
 
 // Player
 // public:
-Player::Player(SDL_FRect initial_rect, Tilemap *** tilemap, Game* game) : PhysicsEntities("player", initial_rect, tilemap, game) {
+Player::Player(SDL_FRect initial_rect, Tilemap *** tilemap, Game* game) : PhysicsEntities("player", initial_rect, tilemap, game, 3) {
     this->max_jumps = 2;
     this->cur_jumps = 0;
     this->air_time = 0;
@@ -137,6 +136,14 @@ void Player::update(int movement) {
     PhysicsEntities::update(movement);
     
     this->jump_control();
+    
+    if (this->life <= 0) {
+        this->life = this->max_life;
+        this->pos = {float((**tilemap)->spawn.x), float((**tilemap)->spawn.y)};
+        this->velocity = {0.0, 0.0};
+
+        this->game->restartLevel();
+    }
 }
 
 void Player::jump() {

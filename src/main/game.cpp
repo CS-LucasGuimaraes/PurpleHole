@@ -173,6 +173,9 @@ void Game::restartLevel() {
     
     this->player->pos.x = (*this->tilemap)->spawn.x;
     this->player->pos.y = (*this->tilemap)->spawn.y;
+    
+    this->player->checkpoint.x = (*this->tilemap)->spawn.x;
+    this->player->checkpoint.y = (*this->tilemap)->spawn.y;
 }
 
 }  // namespace PurpleHole

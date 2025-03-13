@@ -82,8 +82,10 @@ class Editor {
     bool ongrid = true;
 
     SDL_Texture* get_curr_tile();
-
+    
     std::vector<std::pair<std::string, std::string>> tile_list = {
+        {"spike", "Damage"},
+        {"crates", "Crate"},
         {"decor", "decoration"},
         {"grass", "Physical"},
         {"large_decor", "decoration"},
@@ -94,7 +96,6 @@ class Editor {
         {"heart", "Collectible"},
         {"coin", "animated/Collectible"},
         {"diamond", "Collectible"},
-        {"crates", "Crate"},
         {"key_door", "Physical"},
         {"door", "Physical"},
         {"fence", "Physical"},
@@ -116,13 +117,12 @@ class Editor {
         {"water", "Physical"},
         {"key", "Collectable"},
         {"water_surface", "Physical"},
-        {"spike", "Physical"},
-        {"snowman", "Physical"},
+        {"snowman", "decoration"},
         {"beams", "Physical"},
         {"box_industrial", "Physical"},
         {"chest", "Physical"},
         {"gears", "Physical"},
-        {"dye_point", "EditorOnly/dye"},
+        {"death_point", "EditorOnly/Damage"},
         {"spawn_point", "EditorOnly/spawn"},
     };
     short tile_group = 0;
