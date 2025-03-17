@@ -15,6 +15,7 @@ target_sources(Purplehole PRIVATE
 
 ../src/main/editor.cpp 
 ../src/main/game.cpp 
+../src/main/menu.cpp
 
 
 
@@ -32,6 +33,7 @@ target_sources(Purplehole PRIVATE
 
 ./main/editor.hpp 
 ./main/game.hpp
+./main/menu.hpp
 )
 
 target_include_directories(Purplehole PUBLIC .)
