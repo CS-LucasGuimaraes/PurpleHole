@@ -156,9 +156,24 @@ bool Editor::handleEvents() {
                         this->right_clicking = false;
                         break;
 
-                    case SDL_BUTTON_MIDDLE:
-
+                    case SDL_BUTTON_MIDDLE:{
+                        iCord tilepos = this->getTilePos();
+                        std::string tile_loc = std::to_string(tilepos.x) + ";" + std::to_string(tilepos.y);
+            
+                        auto it = (*this->tilemap)->tilemap.find(tile_loc);
+                        if (it != (*this->tilemap)->tilemap.end()) {
+                            const tile& clicked_tile = it->second;
+            
+                            auto foundTile = std::find_if(this->tile_list.begin(), this->tile_list.end(),
+                                [&](const auto& pair) { return pair.first == clicked_tile.type; });
+            
+                            if (foundTile != this->tile_list.end()) {
+                                this->tile_group = std::distance(this->tile_list.begin(), foundTile);
+                                this->tile_variant = clicked_tile.variant;
+                            }
+                        }
                         break;
+                    }
                 }
                 break;
             case SDL_EVENT_MOUSE_WHEEL:
