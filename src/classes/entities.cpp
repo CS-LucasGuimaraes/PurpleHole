@@ -58,6 +58,17 @@ SDL_FRect * PhysicsEntities::Rect() {
     return new SDL_FRect({this->pos.x, this->pos.y, (float)this->size.x, (float)this->size.y});
 }
 
+void PhysicsEntities::go_to_checkpoint() {
+    this->pos.x = this->checkpoint.x;
+    this->pos.y = this->checkpoint.y;
+    this->collectibles = this->collectibles_checkpoint;
+}
+
+void PhysicsEntities::set_checkpoint() {
+    this->checkpoint = {int(this->pos.x), int(this->pos.y)};
+    this->collectibles_checkpoint = this->collectibles;
+}
+
 // protected:
 
 void PhysicsEntities::set_action(std::string action) {
@@ -85,6 +96,7 @@ void PhysicsEntities::movement_and_collide(int movement) {
     collisions_control->physics_collision_X(movement+this->velocity.x);
     collisions_control->crates_collision_X(movement+this->velocity.x);
     collisions_control->platform_collision_X(movement+this->velocity.x);
+    collisions_control->key_door_collision_X(movement+this->velocity.x);
     
     
 
@@ -96,9 +108,12 @@ void PhysicsEntities::movement_and_collide(int movement) {
     collisions_control->physics_collision_Y(this->velocity.y);
     collisions_control->crates_collision_Y(this->velocity.y);
     collisions_control->platform_collision_Y(this->velocity.y);
+    collisions_control->key_door_collision_Y(this->velocity.y);
 
     collisions_control->collectibles_collision();
     collisions_control->damage_collision();
+    collisions_control->check_point_collision();
+    collisions_control->next_level_collision();
 }
 
 void PhysicsEntities::movement_physics() {

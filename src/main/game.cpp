@@ -16,11 +16,8 @@
 
 namespace PurpleHole {
 
-Game::Game() {
-    this->player = new Player({0, 0, 21, 21}, &tilemap, this);
+Game::Game() : player(new Player({0, 0, 21, 21}, &tilemap, this)), pauseMenu(new PauseMenu(renderer)), ui(new UserInterface), curr_lvl(0) {
     this->restartLevel();
-    pauseMenu = new PauseMenu(renderer);
-    this->ui = new UserInterface;
 
     //Serve para colocar imagem de background
     // SDL_Surface* backgroundSurface = IMG_Load("../../assets/images/background.png");
@@ -65,6 +62,9 @@ void Game::next_time() {
     }
 }
 
+void Game::nextLevel() {
+    std::cerr << "NOT IMPLEMENTED YET!\n";
+}
 
 bool Game::handleEvents() {
     SDL_Event event;
@@ -145,6 +145,7 @@ bool Game::handleEvents() {
                     next_time();
                     break;
                 }
+
             break;
 
             case SDL_EVENT_KEY_UP:
@@ -157,10 +158,18 @@ bool Game::handleEvents() {
             break;
 
             case SDL_EVENT_MOUSE_BUTTON_DOWN:
-                int x = event.button.x;
-                int y = event.button.y;
-                if (x >= pauseButton.x && x <= pauseButton.x + pauseButton.w &&
-                    y >= pauseButton.y && y <= pauseButton.y + pauseButton.h) togglePause();
+                fCord mpos;
+                SDL_GetMouseState(&mpos.x, &mpos.y);
+
+                if (event.button.button == SDL_BUTTON_MIDDLE) {  // GOD MODE
+                    this->player->pos = {(mpos.x / kRenderScale) + this->offset.x, (mpos.y / kRenderScale) + this->offset.y};
+                }
+
+                else if (event.button.button == SDL_BUTTON_LEFT) {
+                    if (mpos.x >= pauseButton.x && mpos.x <= pauseButton.x + pauseButton.w &&
+                        mpos.y >= pauseButton.y && mpos.y <= pauseButton.y + pauseButton.h) togglePause();
+                }
+
             break;
         }
     }
@@ -222,9 +231,9 @@ void Game::render() {
 }
 
 void Game::restartLevel() {
-    this->past = new Tilemap("past");
-    this->present = new Tilemap("present");
-    this->future = new Tilemap("future");
+    this->past = new Tilemap("past", curr_lvl);
+    this->present = new Tilemap("present", curr_lvl);
+    this->future = new Tilemap("future", curr_lvl);
     this->tilemap = &present;
     
     this->player->pos.x = (*this->tilemap)->spawn.x;

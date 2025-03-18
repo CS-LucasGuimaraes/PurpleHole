@@ -51,6 +51,10 @@ class PhysicsEntities {
     SDL_FRect * Rect();
     PurpleHole::fCord pos;
     iCord checkpoint;
+    std::map<std::string, int> collectibles_checkpoint;
+
+    void go_to_checkpoint();
+    void set_checkpoint();
     
     protected:
     std::string type;
@@ -67,6 +71,7 @@ class PhysicsEntities {
     Collisions * collisions_control;
     int max_life;
     int life;
+    std::map<std::string, int> collectibles;
     
     /**
      * Sets the action of the physics entity.

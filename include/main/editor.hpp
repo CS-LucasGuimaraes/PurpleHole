@@ -70,6 +70,8 @@ class Editor {
     Tilemap* present;
     Tilemap* future;
 
+    void restartLevel();
+
    private:
     Uint8 scrollCord = 2;
     bool isRunning = true;
@@ -96,13 +98,13 @@ class Editor {
         {"heart", "animated/Collectible"},
         {"coin", "animated/Collectible"},
         {"diamond", "Collectible"},
-        {"key_door", "Physical"},
+        {"key_door", "KeyDoor"},
         {"door", "Physical"},
         {"fence", "Physical"},
-        {"flag", "Physical"},
-        {"flag_pole", "Physical"},
-        {"blue_flag", "Physical"},
-        {"blue_flag_pole", "Physical"},
+        {"flag", "animated/next_level"},
+        {"flag_pole", "next_level"},
+        {"blue_flag", "animated/checkpoint"},
+        {"blue_flag_pole", "checkpoint"},
         {"ice1", "Physical"},
         {"ice2", "Physical"},
         {"tree", "Physical"},
@@ -115,7 +117,7 @@ class Editor {
         {"signs", "Physical"},
         {"stairs", "Physical"},
         {"water", "animated/water"},
-        {"key", "animated/Collectable"},
+        {"key", "animated/Collectible"},
         {"water_surface", "animated/water"},
         {"snowman", "decoration"},
         {"beams", "Physical"},
@@ -127,6 +129,7 @@ class Editor {
     };
     short tile_group = 0;
     short tile_variant = 0;
+    int curr_lvl = 0;
 
     std::map<std::string, bool> modifiers = {
         {"ctrl", false}, {"shift", false}, {"alt", false}};

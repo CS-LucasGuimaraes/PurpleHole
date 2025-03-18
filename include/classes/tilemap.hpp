@@ -40,10 +40,8 @@ class Tilemap {
    public:
     int tile_size = 32;
 
-    Tilemap(std::string ID);
-    ~Tilemap() {
-        this->save();
-    }
+    Tilemap(std::string ID, int lvl);
+    ~Tilemap();
 
     /**
      *  Render the tilemap onto the renderer surface.
@@ -55,9 +53,9 @@ class Tilemap {
     std::vector<SDL_FRect *> tilerects_around(iCord pos, std::string type);
     std::vector<SDL_FRect *> tilerects_around(fCord pos, std::string type);
 
-    void load(int lvl = 0);
+    void load(int lvl);
 
-    void save(int lvl = 0);
+    void save(int lvl);
 
     std::map<std::string, tile> tilemap;
 
@@ -66,6 +64,7 @@ class Tilemap {
     std::string ID;
     SDL_FRect dstR;
     std::set<std::string> updated;
+    int curr_lvl;
 };
 }  // namespace PurpleHole
 

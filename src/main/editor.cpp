@@ -17,9 +17,9 @@
 namespace PurpleHole {
 
 Editor::Editor() {
-    this->past = new Tilemap("past");
-    this->present = new Tilemap("present");
-    this->future = new Tilemap("future");
+    this->past = new Tilemap("past", 0);
+    this->present = new Tilemap("present", 0);
+    this->future = new Tilemap("future", 0);
     
     this->tilemap = &present;
 }
@@ -29,6 +29,16 @@ Editor::~Editor() {
     delete this->present;
     delete this->future;
     std::clog << "Editor class successfully destroyed!\n";
+}
+
+void Editor::restartLevel() {
+    delete this->past;
+    delete this->present;
+    delete this->future;
+    
+    this->past = new Tilemap("past", this->curr_lvl);
+    this->present = new Tilemap("present", this->curr_lvl);
+    this->future = new Tilemap("future", this->curr_lvl);
 }
 
 bool Editor::handleEvents() {
@@ -90,6 +100,14 @@ bool Editor::handleEvents() {
                         if (*this->tilemap == this->future) {
                             this->tilemap = &this->present;
                         }
+                        break;
+                    case SDLK_COMMA:
+                        this->curr_lvl--;
+                        this->restartLevel();
+                        break;
+                    case SDLK_PERIOD:
+                        this->curr_lvl++;
+                        this->restartLevel();
                         break;
                 }
                 break;

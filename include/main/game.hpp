@@ -85,6 +85,7 @@ class Game {
         100  // Y do botão
     };
     SDL_Texture* backgroundTexture = nullptr;
+    int curr_lvl;
 
     void previous_time();
     void next_time();
