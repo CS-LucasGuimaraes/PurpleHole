@@ -33,6 +33,8 @@ bool init() {
         {"water_surface", new Animation (load_images("tiles/water_surface"), 10)},
         {"key", new Animation (load_images("tiles/key"), 10)},
         {"heart", new Animation (load_images("tiles/hearts"), 10)},
+        {"blue_flag", new Animation (load_images("tiles/blue_flag"), 10)},
+        {"flag", new Animation (load_images("tiles/flag"), 10)},
     };
 
     tiles = {
@@ -48,9 +50,7 @@ bool init() {
         {"key_door", load_images("tiles/key_door")},
         {"door", load_images("tiles/door")},
         {"fence", load_images("tiles/fence")},
-        {"flag", load_images("tiles/flag")},
         {"flag_pole", load_images("tiles/flag_pole")},
-        {"blue_flag", load_images("tiles/blue_flag")},
         {"blue_flag_pole", load_images("tiles/blue_flag_pole")},
         {"ice1", load_images("tiles/ice1")},
         {"ice2", load_images("tiles/ice2")},
