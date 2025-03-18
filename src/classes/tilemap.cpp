@@ -18,13 +18,18 @@ namespace PurpleHole {
 
 // public:
 
-Tilemap::Tilemap(std::string ID) : ID(ID) {
+Tilemap::Tilemap(std::string ID, int lvl) : ID(ID), curr_lvl(lvl) {
     this->spawn = {0, 0};
     
-    this->load();
+    this->load(curr_lvl);
 
     this->dstR.h = this->tile_size;
     this->dstR.w = this->tile_size;
+}
+
+Tilemap::~Tilemap() {
+    this->save(curr_lvl);
+    std::clog << "Tilemap class (" << this->ID << ") successfully destroyed!\n";
 }
 
 void Tilemap::render(fCord offset, std::string mode) {
@@ -126,6 +131,9 @@ std::vector<SDL_FRect *> Tilemap::tilerects_around(fCord pos, std::string type) 
 void Tilemap::load(int lvl) {
     try {
         std::ifstream f(ASSETS_PATH + "levels/level" + std::to_string(lvl) + "-" + this->ID + ".lvl");
+        if(!file.is_open()) {
+            
+        }
         nlohmann::json data = nlohmann::json::parse(f);
 
         for (auto [k, v] : data.items()) {

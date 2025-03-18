@@ -16,11 +16,8 @@
 
 namespace PurpleHole {
 
-Game::Game() {
-    this->player = new Player({0, 0, 21, 21}, &tilemap, this);
+Game::Game() : player(new Player({0, 0, 21, 21}, &tilemap, this)), pauseMenu(new PauseMenu(renderer)), ui(new UserInterface), curr_lvl(0) {
     this->restartLevel();
-    pauseMenu = new PauseMenu(renderer);
-    this->ui = new UserInterface;
 
     //Serve para colocar imagem de background
     // SDL_Surface* backgroundSurface = IMG_Load("../../assets/images/background.png");
@@ -234,9 +231,9 @@ void Game::render() {
 }
 
 void Game::restartLevel() {
-    this->past = new Tilemap("past");
-    this->present = new Tilemap("present");
-    this->future = new Tilemap("future");
+    this->past = new Tilemap("past", curr_lvl);
+    this->present = new Tilemap("present", curr_lvl);
+    this->future = new Tilemap("future", curr_lvl);
     this->tilemap = &present;
     
     this->player->pos.x = (*this->tilemap)->spawn.x;

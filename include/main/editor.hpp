@@ -70,6 +70,8 @@ class Editor {
     Tilemap* present;
     Tilemap* future;
 
+    void restartLevel();
+
    private:
     Uint8 scrollCord = 2;
     bool isRunning = true;
@@ -127,6 +129,7 @@ class Editor {
     };
     short tile_group = 0;
     short tile_variant = 0;
+    int curr_lvl = 0;
 
     std::map<std::string, bool> modifiers = {
         {"ctrl", false}, {"shift", false}, {"alt", false}};
