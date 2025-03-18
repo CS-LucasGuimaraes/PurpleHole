@@ -13,8 +13,6 @@
 //    limitations under the License.
 
 #include "main/menu.hpp"
-#include <iostream>
-//#include <SDL3_ttf/SDL_ttf.h>
 
 namespace PurpleHole {
 

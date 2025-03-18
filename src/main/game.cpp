@@ -191,8 +191,8 @@ void Game::render() {
     // }
 
     if (!isPaused) { 
-        this->player->render(this->offset);
         (*this->tilemap)->render(this->offset);
+        this->player->render(this->offset);
     }
 }
     
