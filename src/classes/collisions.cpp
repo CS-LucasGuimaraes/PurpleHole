@@ -202,6 +202,8 @@ void Collisions::collectibles_collision() {
         if (rs->h > 0) {
             std::string loc = std::to_string(int(rect->x/(**tilemap)->tile_size)) + ';' +
                         std::to_string(int(rect->y/(**tilemap)->tile_size));
+            entity->collectibles[(**tilemap)->tilemap[loc].type]++;
+            std::clog << "Collectible: " << (**tilemap)->tilemap[loc].type << ": " << entity->collectibles[(**tilemap)->tilemap[loc].type] << std::endl;
             (**tilemap)->tilemap.erase(loc);
         }
     }
@@ -219,8 +221,7 @@ void Collisions::Damage_collision() {
             this->entity->life--;
             if ((**tilemap)->tilemap[loc].type == "death_point") this->entity->life = 0;
 
-            this->entity->pos.x = this->entity->checkpoint.x;
-            this->entity->pos.y = this->entity->checkpoint.y;
+            entity->go_to_checkpoint();
             return;
         }
     }

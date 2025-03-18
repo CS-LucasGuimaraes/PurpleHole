@@ -58,6 +58,17 @@ SDL_FRect * PhysicsEntities::Rect() {
     return new SDL_FRect({this->pos.x, this->pos.y, (float)this->size.x, (float)this->size.y});
 }
 
+void PhysicsEntities::go_to_checkpoint() {
+    this->pos.x = this->checkpoint.x;
+    this->pos.y = this->checkpoint.y;
+    this->collectibles = this->collectibles_checkpoint;
+}
+
+void PhysicsEntities::set_checkpoint() {
+    this->checkpoint = {int(this->pos.x), int(this->pos.y)};
+    this->collectibles_checkpoint = this->collectibles;
+}
+
 // protected:
 
 void PhysicsEntities::set_action(std::string action) {

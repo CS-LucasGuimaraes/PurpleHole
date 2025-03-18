@@ -115,7 +115,7 @@ class Editor {
         {"signs", "Physical"},
         {"stairs", "Physical"},
         {"water", "animated/water"},
-        {"key", "animated/Collectable"},
+        {"key", "animated/Collectible"},
         {"water_surface", "animated/water"},
         {"snowman", "decoration"},
         {"beams", "Physical"},
