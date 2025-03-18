@@ -112,6 +112,8 @@ void PhysicsEntities::movement_and_collide(int movement) {
 
     collisions_control->collectibles_collision();
     collisions_control->Damage_collision();
+    collisions_control->check_point_collision();
+    collisions_control->next_level_collision();
 }
 
 void PhysicsEntities::movement_physics() {

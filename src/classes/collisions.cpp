@@ -287,4 +287,28 @@ void Collisions::Damage_collision() {
     }
 }
 
+void Collisions::check_point_collision() {
+    SDL_FRect* entity_rect = entity->Rect();
+    for (auto rect : (**tilemap)->tilerects_around(entity->pos, "checkpoint")) {
+        SDL_FRect * rs = new SDL_FRect();
+        if (SDL_GetRectIntersectionFloat(entity_rect, rect,rs)) 
+        if (rs->h > 0) {
+            std::string loc = std::to_string(int(rect->x/(**tilemap)->tile_size)) + ';' +
+                        std::to_string(int(rect->y/(**tilemap)->tile_size));
+            entity->set_checkpoint();
+        }
+    }
+}
+
+void Collisions::next_level_collision() {
+    SDL_FRect* entity_rect = entity->Rect();
+    for (auto rect : (**tilemap)->tilerects_around(entity->pos, "next_level")) {
+        SDL_FRect * rs = new SDL_FRect();
+        if (SDL_GetRectIntersectionFloat(entity_rect, rect,rs)) 
+        if (rs->h > 0) {
+            game->nextLevel();
+        }
+    }
+}
+
 }  // namespace PurpleHole

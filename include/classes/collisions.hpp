@@ -41,6 +41,8 @@ class Collisions {
     
     void collectibles_collision();
     void Damage_collision();
+    void check_point_collision();
+    void next_level_collision();
     
             
    private:

@@ -65,6 +65,9 @@ void Game::next_time() {
     }
 }
 
+void Game::nextLevel() {
+    std::cerr << "NOT IMPLEMENTED YET!\n";
+}
 
 bool Game::handleEvents() {
     SDL_Event event;
@@ -158,19 +161,18 @@ bool Game::handleEvents() {
             break;
 
             case SDL_EVENT_MOUSE_BUTTON_DOWN:
+                fCord mpos;
+                SDL_GetMouseState(&mpos.x, &mpos.y);
+
                 if (event.button.button == SDL_BUTTON_MIDDLE) {  // GOD MODE
-                    fCord mpos;
-                    SDL_GetMouseState(&mpos.x, &mpos.y);
                     this->player->pos = {(mpos.x / kRenderScale) + this->offset.x, (mpos.y / kRenderScale) + this->offset.y};
                 }
 
+                else if (event.button.button == SDL_BUTTON_LEFT) {
+                    if (mpos.x >= pauseButton.x && mpos.x <= pauseButton.x + pauseButton.w &&
+                        mpos.y >= pauseButton.y && mpos.y <= pauseButton.y + pauseButton.h) togglePause();
+                }
 
-
-
-                int x = event.button.x;
-                int y = event.button.y;
-                if (x >= pauseButton.x && x <= pauseButton.x + pauseButton.w &&
-                    y >= pauseButton.y && y <= pauseButton.y + pauseButton.h) togglePause();
             break;
         }
     }
