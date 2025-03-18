@@ -14,14 +14,14 @@
 
 #include "main/menu.hpp"
 #include <iostream>
-#include <SDL3_ttf/SDL_ttf.h>
+//#include <SDL3_ttf/SDL_ttf.h>
 
 namespace PurpleHole {
 
 Menu::Menu(SDL_Renderer* renderer) : renderer(renderer), selectedIndex(0) {
     TTF_Init();
     //This is provisory, and only works on my computer. 
-    font = TTF_OpenFont("/home/arss5/Documents/PurpleHole/assets/fonts/arial.ttf", 24);
+    font = TTF_OpenFont("../../assets/fonts/Kenney Blocks.ttf", 24);
     options = {"Start Game", "Editor", "Exit"};
 }
 
@@ -31,8 +31,9 @@ Menu::~Menu() {
 }
 
 void Menu::render() {
-    // SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
+    SDL_SetRenderDrawColor(renderer, 222, 203, 169, 255);
     SDL_RenderClear(renderer);
+    
 
     SDL_Color color;
     SDL_FRect textFRect;
@@ -48,6 +49,24 @@ void Menu::render() {
 
         SDL_DestroySurface(textSurface);
         SDL_DestroyTexture(textTexture);
+    }
+
+    // Load and render the image
+    SDL_Surface* imageSurface = IMG_Load("../../assets/images/menu_image.png");
+    if (imageSurface) {
+        SDL_Texture* imageTexture = SDL_CreateTextureFromSurface(renderer, imageSurface);
+
+        // Position the image dynamically to the right-middle of the screen
+        float imageX = 1280 - imageSurface->w - 50;  // 50px padding from right edge
+        float imageY = (720 - imageSurface->h) / 2; // Center vertically
+
+        SDL_FRect imageFRect = {650, 100, static_cast<float>((imageSurface->w)/2), static_cast<float>(imageSurface->h)/2};
+        SDL_RenderTexture(renderer, imageTexture, nullptr, &imageFRect);
+
+        SDL_DestroySurface(imageSurface);
+        SDL_DestroyTexture(imageTexture);
+    } else {
+        std::cerr << "Failed to load image: " << SDL_GetError() << std::endl;
     }
 
     SDL_RenderPresent(renderer);

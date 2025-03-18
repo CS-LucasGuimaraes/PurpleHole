@@ -20,6 +20,7 @@ namespace assets {
 std::map<std::string, Animation*> animations;
 std::map<std::string, Animation*> animated_tiles;
 std::map<std::string, std::vector<SDL_Texture *>> tiles;
+std::map<std::string, SDL_Texture *> ui_elements;
 
 bool init() {
     animations = {
@@ -70,6 +71,10 @@ bool init() {
         {"gears", load_images("tiles/gears")},
         {"death_point", load_images("tiles/death_point")},
         {"spawn_point", load_images("tiles/spawn_point")},
+    };
+
+    ui_elements = {
+        {"pause_button", load_image("/home/arss5/Documents/PurpleHole/assets/images/flat-dark/flatDark32.png")}
     };
 
     return true;

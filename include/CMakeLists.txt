@@ -4,7 +4,8 @@ target_sources(Purplehole PRIVATE
 ../src/classes/animation.cpp 
 ../src/classes/collisions.cpp 
 ../src/classes/entities.cpp 
-../src/classes/interface.cpp 
+../src/classes/interface.cpp
+../src/classes/pausemenu.cpp
 ../src/classes/tilemap.cpp 
 
 ../src/core/assets.cpp 
@@ -22,7 +23,8 @@ target_sources(Purplehole PRIVATE
 ./classes/animation.hpp 
 ./classes/collisions.hpp 
 ./classes/entities.hpp 
-./classes/interface.hpp 
+./classes/interface.hpp
+./classes/pausemenu.hpp 
 ./classes/tilemap.hpp 
 
 ./core/assets.hpp 
