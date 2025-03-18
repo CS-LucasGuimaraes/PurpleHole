@@ -96,7 +96,7 @@ class Editor {
         {"heart", "animated/Collectible"},
         {"coin", "animated/Collectible"},
         {"diamond", "Collectible"},
-        {"key_door", "Physical"},
+        {"key_door", "KeyDoor"},
         {"door", "Physical"},
         {"fence", "Physical"},
         {"flag", "Physical"},

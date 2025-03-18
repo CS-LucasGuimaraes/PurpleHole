@@ -145,6 +145,7 @@ bool Game::handleEvents() {
                     next_time();
                     break;
                 }
+
             break;
 
             case SDL_EVENT_KEY_UP:
@@ -157,6 +158,15 @@ bool Game::handleEvents() {
             break;
 
             case SDL_EVENT_MOUSE_BUTTON_DOWN:
+                if (event.button.button == SDL_BUTTON_MIDDLE) {  // GOD MODE
+                    fCord mpos;
+                    SDL_GetMouseState(&mpos.x, &mpos.y);
+                    this->player->pos = {(mpos.x / kRenderScale) + this->offset.x, (mpos.y / kRenderScale) + this->offset.y};
+                }
+
+
+
+
                 int x = event.button.x;
                 int y = event.button.y;
                 if (x >= pauseButton.x && x <= pauseButton.x + pauseButton.w &&

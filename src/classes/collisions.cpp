@@ -194,6 +194,66 @@ void Collisions::platform_collision_Y(float frame_movement) {
     }
 }
 
+void Collisions::key_door_collision_X(float frame_movement) {
+    SDL_FRect* entity_rect = entity->Rect();
+    for (auto rect : (**tilemap)->tilerects_around(entity->pos, "KeyDoor")) {
+        SDL_FRect * rs = new SDL_FRect();
+        if (SDL_GetRectIntersectionFloat(entity_rect, rect,rs)) 
+        if (rs->h > 0) {
+            if (entity->collectibles["key"] > 0) {
+                entity->collectibles["key"]--;
+                std::string loc = std::to_string(int(rect->x/(**tilemap)->tile_size)) + ';' +
+                            std::to_string(int(rect->y/(**tilemap)->tile_size));
+                (**tilemap)->tilemap.erase(loc);
+            }
+            else {
+                if (frame_movement > 0) {
+                    entity->collisions["right"] = true;
+                    entity_rect->x = rect->x - entity_rect->w;
+                }
+                else if (frame_movement < 0) {
+                    entity->collisions["left"] = true;
+                    entity_rect->x = rect->x + rect->w;
+                }
+                if (frame_movement != 0) {
+                    entity->pos.x = entity_rect->x;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+void Collisions::key_door_collision_Y(float frame_movement) {
+    SDL_FRect* entity_rect = entity->Rect();
+    for (auto rect : (**tilemap)->tilerects_around(entity->pos, "KeyDoor")) {
+        SDL_FRect * rs = new SDL_FRect();
+        if (SDL_GetRectIntersectionFloat(entity_rect, rect, rs)) 
+        if (rs->w > 0) {
+            if (entity->collectibles["key"] > 0) {
+                entity->collectibles["key"]--;
+                std::string loc = std::to_string(int(rect->x/(**tilemap)->tile_size)) + ';' +
+                            std::to_string(int(rect->y/(**tilemap)->tile_size));
+                (**tilemap)->tilemap.erase(loc);
+            }
+            else {
+                if (frame_movement < 0) {
+                    entity->collisions["up"] = true;
+                    entity_rect->y = rect->y + rect->h;
+                }
+                else if (frame_movement > 0) {
+                    entity->collisions["down"] = true;
+                    entity_rect->y = rect->y - entity_rect->h;
+                }
+                if (frame_movement != 0) {
+                    entity->pos.y = entity_rect->y;
+                    break;
+                }
+            }
+        }
+    }
+}
+
 void Collisions::collectibles_collision() {
     SDL_FRect* entity_rect = entity->Rect();
     for (auto rect : (**tilemap)->tilerects_around(entity->pos, "Collectible")) {

@@ -96,6 +96,7 @@ void PhysicsEntities::movement_and_collide(int movement) {
     collisions_control->physics_collision_X(movement+this->velocity.x);
     collisions_control->crates_collision_X(movement+this->velocity.x);
     collisions_control->platform_collision_X(movement+this->velocity.x);
+    collisions_control->key_door_collision_X(movement+this->velocity.x);
     
     
 
@@ -107,6 +108,7 @@ void PhysicsEntities::movement_and_collide(int movement) {
     collisions_control->physics_collision_Y(this->velocity.y);
     collisions_control->crates_collision_Y(this->velocity.y);
     collisions_control->platform_collision_Y(this->velocity.y);
+    collisions_control->key_door_collision_Y(this->velocity.y);
 
     collisions_control->collectibles_collision();
     collisions_control->Damage_collision();

@@ -35,6 +35,9 @@ class Collisions {
 
     void platform_collision_X(float frame_movement);
     void platform_collision_Y(float frame_movement);
+
+    void key_door_collision_X(float frame_movement);
+    void key_door_collision_Y(float frame_movement);
     
     void collectibles_collision();
     void Damage_collision();
