@@ -20,6 +20,7 @@ namespace assets {
 std::map<std::string, Animation*> animations;
 std::map<std::string, Animation*> animated_tiles;
 std::map<std::string, std::vector<SDL_Texture *>> tiles;
+std::map<std::string, SDL_Texture *> ui_elements;
 
 bool init() {
     animations = {
@@ -28,6 +29,10 @@ bool init() {
 
     animated_tiles = {
         {"coin", new Animation (load_images("tiles/coin"), 10)},
+        {"water", new Animation (load_images("tiles/water"), 10)},
+        {"water_surface", new Animation (load_images("tiles/water_surface"), 10)},
+        {"key", new Animation (load_images("tiles/key"), 10)},
+        {"heart", new Animation (load_images("tiles/hearts"), 10)},
     };
 
     tiles = {
@@ -38,7 +43,6 @@ bool init() {
         {"cloud_platform", load_images("tiles/cloud_plataform")},
         {"scaffolding", load_images("tiles/scaffolding")},
         {"boxes", load_images("tiles/boxes")},
-        {"heart", load_images("tiles/hearts")},
         {"diamond", load_images("tiles/diamond")},
         {"crates", load_images("tiles/crates")},
         {"key_door", load_images("tiles/key_door")},
@@ -59,9 +63,6 @@ bool init() {
         {"ropes", load_images("tiles/ropes")},
         {"signs", load_images("tiles/signs")},
         {"stairs", load_images("tiles/stairs")},
-        {"water", load_images("tiles/water")},
-        {"key", load_images("tiles/key")},
-        {"water_surface", load_images("tiles/water_surface")},
         {"spike", load_images("tiles/spike")},
         {"snowman", load_images("tiles/snowman")},
         {"beams", load_images("tiles/beams")},
@@ -70,6 +71,10 @@ bool init() {
         {"gears", load_images("tiles/gears")},
         {"death_point", load_images("tiles/death_point")},
         {"spawn_point", load_images("tiles/spawn_point")},
+    };
+
+    ui_elements = {
+        {"pause_button", load_image("/home/arss5/Documents/PurpleHole/assets/images/flat-dark/flatDark32.png")}
     };
 
     return true;

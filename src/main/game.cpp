@@ -19,8 +19,17 @@ namespace PurpleHole {
 Game::Game() {
     this->player = new Player({0, 0, 21, 21}, &tilemap, this);
     this->restartLevel();
-
+    pauseMenu = new PauseMenu(renderer);
     this->ui = new UserInterface;
+
+    //Serve para colocar imagem de background
+    // SDL_Surface* backgroundSurface = IMG_Load("../../assets/images/background.png");
+    // if (!backgroundSurface) {
+    //     std::cerr << "Failed to load background image: " << SDL_GetError() << std::endl;
+    // } else {
+    //     backgroundTexture = SDL_CreateTextureFromSurface(renderer, backgroundSurface);
+    //     SDL_DestroySurface(backgroundSurface);
+    // }
 
     
 }
@@ -28,6 +37,12 @@ Game::Game() {
 Game::~Game() {
     delete this->player;
     std::clog << "Game class successfully destroyed!\n";
+    delete pauseMenu;
+
+    if (backgroundTexture) {
+        SDL_DestroyTexture(backgroundTexture);
+        backgroundTexture = nullptr;
+    }
 }
 
 void Game::previous_time() {
@@ -70,6 +85,23 @@ bool Game::handleEvents() {
             this->movement.first = this->movement.second = 0;
         }
         while (SDL_PollEvent(&event)) {
+
+            if (isPaused) {
+                int result = -1;
+                while (result == -1) {
+                    result = pauseMenu->handleInput();
+                    pauseMenu->render();
+                    SDL_Delay(100);
+                }
+                isPaused = false;
+    
+                if (result == 2) {  // Main Menu selected
+                    this->isRunning = false;
+                } else if (result == 3) {  // Quit selected
+                    this->isRunning = false;
+                    exit(0);
+                }
+            }
         switch (event.type) {
             case SDL_EVENT_QUIT:
                 this->isRunning = false;
@@ -123,6 +155,13 @@ bool Game::handleEvents() {
                     this->movement.second = 0;
                 }
             break;
+
+            case SDL_EVENT_MOUSE_BUTTON_DOWN:
+                int x = event.button.x;
+                int y = event.button.y;
+                if (x >= pauseButton.x && x <= pauseButton.x + pauseButton.w &&
+                    y >= pauseButton.y && y <= pauseButton.y + pauseButton.h) togglePause();
+            break;
         }
     }
     return true;
@@ -141,10 +180,20 @@ void Game::camera_control() {
 void Game::render() {
 {
     SDL_SetRenderTarget(renderer, display);
+    SDL_SetRenderDrawColor(renderer, 171, 233, 251, 255);
     SDL_RenderClear(renderer);
+    //Tem um jeito melhor de fazer isso?
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 
-    this->player->render(this->offset);
-    (*this->tilemap)->render(this->offset);
+    //Para colocar imagem de Background
+    // if (backgroundTexture) {
+    //     SDL_RenderTexture(renderer, backgroundTexture, NULL, NULL);
+    // }
+
+    if (!isPaused) { 
+        (*this->tilemap)->render(this->offset);
+        this->player->render(this->offset);
+    }
 }
     
 {   
@@ -152,6 +201,9 @@ void Game::render() {
     SDL_RenderClear(renderer);
 
     ui->render();
+
+    SDL_RenderTexture(renderer, PurpleHole::assets::ui_elements["pause_button"], NULL, &pauseButton);
+    
 }
 
 {
@@ -160,7 +212,11 @@ void Game::render() {
     
     SDL_RenderTexture(renderer, display, NULL, NULL);
     SDL_RenderTexture(renderer, interface, NULL, NULL);
-    
+
+    if (isPaused) {
+        pauseMenu->render();
+    }
+
     SDL_RenderPresent(renderer);
 }
 }
@@ -176,6 +232,10 @@ void Game::restartLevel() {
     
     this->player->checkpoint.x = (*this->tilemap)->spawn.x;
     this->player->checkpoint.y = (*this->tilemap)->spawn.y;
+}
+
+void Game::togglePause() {
+    isPaused = !isPaused;
 }
 
 }  // namespace PurpleHole

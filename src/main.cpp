@@ -17,6 +17,7 @@
 #include "core/keybinds.hpp"
 #include "main/editor.hpp"
 #include "main/game.hpp"
+#include "main/menu.hpp"
 
 const bool kFullscreen = false;
 
@@ -46,12 +47,12 @@ int main(int argc, char* argv[]) {
         std::cerr << "[WARNING!] KEYMAP INITIALIZATION FAILED!\n";
     }
 
-    int mode = 0;
+    Menu menu(renderer);
+    int mode;
     do {
-        std::cout << "[0] exit\n[1] game\n[2] editor\n";
-        std::cin >> mode;
+        mode = menu.show(); 
 
-        if (mode == 1) {
+        if (mode == 1) {   
             Game* game = new Game();
             while (game->running()) {
                 frameStart = SDL_GetTicks();
@@ -92,11 +93,9 @@ int main(int argc, char* argv[]) {
             }
             delete editor;
         }
-
-        SDL_RenderClear(renderer);
-        SDL_RenderPresent(renderer);
-
-    } while (mode != 0);
+        // SDL_RenderClear(renderer);
+        // SDL_RenderPresent(renderer);        
+    } while (mode != 3); // Exit when "Exit" is selected
 
     Shutdown();
 

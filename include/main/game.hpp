@@ -17,6 +17,7 @@
 
 #include "classes/entities.hpp"
 #include "classes/interface.hpp"
+#include "classes/pausemenu.hpp"
 #include "classes/tilemap.hpp"
 #include "core/assets.hpp"
 #include "core/keybinds.hpp"
@@ -66,6 +67,7 @@ class Game {
 
    private:
     bool isRunning = true;
+    bool isPaused = false;
     Player* player;
     Tilemap** tilemap;
     Tilemap* past;
@@ -75,11 +77,21 @@ class Game {
     std::pair<int, int> movement = {0, 0};
     std::map<SDL_Gamepad*, Player*> Gamepad2Player;
     UserInterface* ui;
+    PauseMenu* pauseMenu;
+    SDL_FRect pauseButton = {
+        static_cast<float>((kScreenSize.x - 100) / 2),
+        static_cast<float>(kScreenSize.y) * 0.02f, 
+        100, // X do botão
+        100  // Y do botão
+    };
+    SDL_Texture* backgroundTexture = nullptr;
 
     void previous_time();
     void next_time();
 
     void camera_control();
+
+    void togglePause();
 
 };
 }  // namespace PurpleHole
