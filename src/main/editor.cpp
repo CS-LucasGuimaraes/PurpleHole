@@ -35,10 +35,10 @@ void Editor::restartLevel() {
     delete this->past;
     delete this->present;
     delete this->future;
-
-    this->past->load(this->curr_lvl);
-    this->present->load(this->curr_lvl);
-    this->future->load(this->curr_lvl);
+    
+    this->past = new Tilemap("past", this->curr_lvl);
+    this->present = new Tilemap("present", this->curr_lvl);
+    this->future = new Tilemap("future", this->curr_lvl);
 }
 
 bool Editor::handleEvents() {

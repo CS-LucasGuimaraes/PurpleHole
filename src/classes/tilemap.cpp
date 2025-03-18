@@ -25,6 +25,8 @@ Tilemap::Tilemap(std::string ID, int lvl) : ID(ID), curr_lvl(lvl) {
 
     this->dstR.h = this->tile_size;
     this->dstR.w = this->tile_size;
+
+    this->updated = std::set<std::string>();
 }
 
 Tilemap::~Tilemap() {
@@ -35,7 +37,7 @@ Tilemap::~Tilemap() {
 void Tilemap::render(fCord offset, std::string mode) {
     std::map<std::string, tile>::iterator tile;
 
-    this->updated.clear();
+    // this->updated.clear();
 
     for (int x = DivFloor(offset.x, this->tile_size);
          x < DivFloor(offset.x + kDisplaySize.x, this->tile_size) + 1; x++) {
@@ -130,10 +132,15 @@ std::vector<SDL_FRect *> Tilemap::tilerects_around(fCord pos, std::string type) 
 
 void Tilemap::load(int lvl) {
     try {
-        std::ifstream f(ASSETS_PATH + "levels/level" + std::to_string(lvl) + "-" + this->ID + ".lvl");
-        if(!file.is_open()) {
-            
+        
+        std::string path = (ASSETS_PATH + "levels/level" + std::to_string(lvl) + "-" + this->ID + ".lvl");
+
+        if (!std::filesystem::exists(path)) {
+            std::cerr << "[WARNING!] LEVEL " << lvl << "-" << this->ID << " NOT FOUND!\n";
+            return;
         }
+
+        std::ifstream f(path);
         nlohmann::json data = nlohmann::json::parse(f);
 
         for (auto [k, v] : data.items()) {
@@ -154,7 +161,7 @@ void Tilemap::load(int lvl) {
     }
     catch(const std::exception& e) {
         std::cerr
-                << "[WARNING!] ERROR DURING LEVEL "<< lvl << " LOADING \n"
+                << "[WARNING!] ERROR DURING LEVEL "<< lvl << "-" << this->ID << " LOADING \n"
                 << "     " << e.what() << '\n';
     }
     
@@ -176,6 +183,6 @@ void Tilemap::save(int lvl) {
     }
     out << j;
 
-    std::clog << "Level " << lvl << "saved!\n";
+    std::clog << "Level " << lvl << "-" << this->ID << " saved!\n";
 }
 }  // namespace PurpleHole
