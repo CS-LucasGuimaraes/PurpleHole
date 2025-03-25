@@ -1,55 +1,53 @@
-// Copyright (C) 2024 Lucas Guimarães
+//    Copyright 2025 Lucas Guimarães Fernandes
 //
-//     This program is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+//    Licensed under the Apache License, Version 2.0 (the "License");
+//    you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
 //
-//     This program is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+//        http://www.apache.org/licenses/LICENSE-2.0
 //
-//     You should have received a copy of the GNU General Public License
-//     along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
 
 #ifndef PURPLEHOLE_CLASSES_PAUSE_MENU_HPP_
 #define PURPLEHOLE_CLASSES_PAUSE_MENU_HPP_
 
 #include "core/engine.hpp"
+
 namespace PurpleHole {
 
-class PauseMenu {
+    class PauseMenu {
     public:
-     PauseMenu(SDL_Renderer* renderer);
-     ~PauseMenu();
- 
-     /**
-      * Renders the options menu.
-      */
-     void render();
- 
-     /**
-      * Handles user input for navigating the options menu.
-      * @param running A reference to the running state.
-      */
-     int handleInput();
- 
-     /**
-      * Displays the options menu and waits for user selection.
-      * @returns The selected option index.
-      */
-     int show();
- 
-    private:
-     SDL_Renderer* renderer;
-     TTF_Font* font;
-     std::vector<std::string> options;
-     int selectedIndex;
+        explicit PauseMenu(SDL_Renderer* renderer);
+        ~PauseMenu();
 
- };
- 
-} // namespace PurpleHole
+        /**
+         * Renders the pause menu.
+         */
+        void render();
+
+        /**
+         * Handles input and returns the selected option.
+         * @returns Index of the selected option or -1 if none.
+         */
+        int handleInput();
+
+        /**
+         * Displays the menu loop until a valid option is selected.
+         * @returns Index of selected option.
+         */
+        int show();
+
+    private:
+        SDL_Renderer* renderer;
+        TTF_Font* font;
+        std::vector<std::string> options;
+        int selectedIndex;
+    };
+
+}  // namespace PurpleHole
 
 #endif  // PURPLEHOLE_CLASSES_PAUSE_MENU_HPP_
