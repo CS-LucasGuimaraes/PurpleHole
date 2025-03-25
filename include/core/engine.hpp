@@ -41,13 +41,10 @@ struct fCord {
     float y;
 };
 
-
-// struct tile in "tilemap.hpp"
-
-extern SDL_Window *screen;
-extern SDL_Renderer *renderer;
-extern SDL_Texture *display;
-extern SDL_Texture *interface;
+extern SDL_Window* screen;
+extern SDL_Renderer* renderer;
+extern SDL_Texture* display;
+extern SDL_Texture* interface;
 
 extern const iCord kDisplaySize;
 extern const iCord kScreenSize;
@@ -58,10 +55,9 @@ extern std::string ASSETS_PATH;
 extern int curr_id;
 
 namespace font {
-    extern TTF_Font *title;
-    extern TTF_Font *subtitle;
-    extern TTF_Font *text;
-    
+    extern TTF_Font* title;
+    extern TTF_Font* subtitle;
+    extern TTF_Font* text;
     extern bool initialized;
 
     void init();
@@ -78,7 +74,7 @@ bool find_assets_path();
  * in fullscreen mode. \returns (bool): This function returns true on success,
  * or false on failure (e.g., loading errors).
  */
-bool Init(const char *title, SDL_Rect window_features, bool fullscreen);
+bool Init(const char* title, SDL_Rect window_features, bool fullscreen);
 
 /**
  * Deallocates resources and shuts down the engine.
@@ -86,6 +82,7 @@ bool Init(const char *title, SDL_Rect window_features, bool fullscreen);
  * \returns (void): This function does not return a value.
  */
 void Shutdown();
+
 }  // namespace PurpleHole
 
-#endif // PURPLEHOLE_CORE_ENGINE_HPP_
+#endif  // PURPLEHOLE_CORE_ENGINE_HPP_
