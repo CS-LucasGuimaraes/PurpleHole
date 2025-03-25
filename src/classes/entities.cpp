@@ -36,7 +36,7 @@ PhysicsEntities::~PhysicsEntities() {
 
 void PhysicsEntities::update(int movement) {
     this->reset_collisions();
-    this->movement_and_collide(movement);
+    this->movement_and_collide(movement * 2);
     this->movement_physics();
     this->facing_side(movement);
     this->animation->update();
@@ -117,7 +117,7 @@ void PhysicsEntities::movement_and_collide(int movement) {
 }
 
 void PhysicsEntities::movement_physics() {
-    this->velocity.y = std::min(5.0, this->velocity.y + 0.1); // Gravity
+    this->velocity.y = std::min(5.5, this->velocity.y + 0.1); // Gravity
 
     if (this->velocity.x > 0) {
         this->velocity.x = std::max(this->velocity.x - 0.1, 0.0);  // Right slowdown
@@ -142,7 +142,7 @@ void PhysicsEntities::facing_side(int movement) {
 // public:
 Player::Player(SDL_FRect initial_rect, Tilemap *** tilemap, Game* game) : PhysicsEntities("player", initial_rect, tilemap, game, 3) {
     this->max_jumps = 2;
-    this->cur_jumps = 0;
+    this->cur_jumps = 1;
     this->air_time = 0;
     this->in_air = 0;
 }
@@ -167,7 +167,7 @@ void Player::jump() {
         // play sound
     }
     else if (this->cur_jumps > 0 && (this->cur_jumps != this->max_jumps || this->air_time < 10)) {
-        this->velocity.y = -3.1;
+        this->velocity.y = -3.6;
         this->cur_jumps -= 1;
         this->in_air = true;
         
@@ -177,7 +177,7 @@ void Player::jump() {
 
 // protected:
 void Player::jump_control() {
-    this->air_time += 1;
+    this->air_time += 2;
 
     if (this->air_time > 10) this->in_air = true;
 
@@ -197,7 +197,7 @@ void Player::wall_jump() {
     }
 
     this->velocity.y = -2;
-    this->cur_jumps = std::max(0, this->cur_jumps-1);
+    this->cur_jumps = std::max(1, this->cur_jumps-1);
 }
 
 }  // namespace PurpleHole
